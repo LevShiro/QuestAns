@@ -1,0 +1,27 @@
+{% extends "main/index.html" %}
+
+{% block title %}QuestAns | Вход{% endblock %}
+
+{% block content %}
+<main class="auth-block">
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        {{form.username}}
+        {{form.password}}
+        {% if form.username.errors %}
+            <span class="block__error__auth">
+                {{form.username.errors}}
+            </span>
+        {% elif form.password.errors %}
+            <span class="block__error__auth">
+                {{form.password.errors}}
+            </span>
+        {% endif %}
+        {{form.non_field_errors}}
+        <a href="{% url 'register' %}" class="link-in-auth">У меня нет аккаунта</a>
+        <input type="submit" value="Войти">
+    </form>
+    
+</main>
+{% endblock content %}

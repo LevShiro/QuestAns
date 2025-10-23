@@ -1,0 +1,9 @@
+<header class="main-header">
+    {% if request.user.is_authenticated %}
+    {{request.user.username}}
+    <form action="" method="post">
+        {% csrf_token %}
+        <button class="logout-button" name="logout-button">Выйти</button>
+    </form>
+    {% endif %}
+</header>

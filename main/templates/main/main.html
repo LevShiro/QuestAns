@@ -1,0 +1,21 @@
+{% extends "main/index.html" %}
+
+{% block title %}QuestAns{% endblock %}
+
+{% block content %}
+    {% include 'main/header.html' %}
+    <main class="main-block">
+        <h4 class="main__title">QuestAns</h4>
+        <div class="links-reglog">
+            <a href="{% url 'login' %}" class="link-login">
+                <button>Войти</button>
+            </a>
+            <a href="{% url 'register' %}" class="link-regist">
+                <button>Регистрация</button>
+            </a>
+        </div>
+        <a href="" class="link-find-cards">
+            <button>Начать решать карточки</button>
+        </a>
+    </main>
+{% endblock content %}
