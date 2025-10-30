@@ -12,20 +12,7 @@
         {{form.username}}
         {{form.password1}}
         {{form.password2}}
-        {% if form.email.errors %}
-            <span class="block__error__auth">
-                {{form.email.errors}}
-            </span>
-        {% elif form.username.errors %}
-            <span class="block__error__auth">
-                {{form.username.errors}}
-            </span>
-        {% elif form.password1.errors or form.password2.errors %}
-            <span class="block__error__auth">
-                {{form.password1.errors}}
-                {{form.password2.errors}}
-            </span>
-        {% endif %}
+        {{form.non_field_errors}}
         <a href="{% url 'login' %}" class="link-in-auth">Уже есть аккаунт</a>
         <input type="submit" value="Зарегистрироваться">
     </form>

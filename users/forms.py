@@ -26,13 +26,20 @@ class RegisterForm(UserCreationForm):
         'class':'form-input',
         'placeholder':'Повторите ваш пароль'
     }))
+    
+    def clean(self):
         
-    def clean_password2(self):
+        username = self.cleaned_data['username']
+        if re.search(r'[^a-zA-Z0-9]', username):
+            raise ValidationError('Имя пользователя не должно содержать спец. символы "@","!","?" и т.д.')
         password1 = self.cleaned_data['password1']
-        
+        password2 = self.cleaned_data['password2']
+        if password1!=password2:
+            raise ValidationError('Введеные пароли не совпадают!')
         if not(bool(re.search("[a-zA-Z]",password1))):
             raise ValidationError("Пароль должен состоять из символов латиницы (a-z,A-Z) и цифр")
-        return password1
+        return self.cleaned_data
+    
     def save(self, commit=True):
         user = User.objects.create_user(
             email=self.cleaned_data['email'],
@@ -45,6 +52,7 @@ class RegisterForm(UserCreationForm):
         fields = ('email','username','password1','password2')
 
 class LoginForm(AuthenticationForm):
+    
     username = forms.CharField(min_length=3,widget=TextInput(attrs={
         'class':'form-input',
         'placeholder':'Логин/email'

@@ -1,9 +1,21 @@
+{% load static %}
 <header class="main-header">
-    {% if request.user.is_authenticated %}
-    {{request.user.username}}
-    <form action="" method="post">
-        {% csrf_token %}
-        <button class="logout-button" name="logout-button">Выйти</button>
-    </form>
-    {% endif %}
+    <div class="main-header__user-block">
+        {% if request.user.is_authenticated %}
+        {% if request.user.avatar %}
+            <img src="{{request.user.avatar.url}}" class="main-header__avatar-user">
+        {% else %}
+            <img src="{% static 'main/images/non-auth.png' %}" class="main-header__avatar-user">
+        {% endif %}
+        {{request.user.username}}
+        <a href="#">Профиль</a>
+        <form action="" method="post">
+            {% csrf_token %}
+            <button name="logout-button">Выйти</button>
+        </form>
+        {% else %}
+            <span>Пользователь не авторизован!</span>
+            <a href="{% url 'login' %}">Авторизоваться</a>
+        {% endif %}
+    </div>
 </header>

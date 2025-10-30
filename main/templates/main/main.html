@@ -3,7 +3,7 @@
 {% block title %}QuestAns{% endblock %}
 
 {% block content %}
-    {% include 'main/header.html' %}
+    
     <main class="main-block">
         <h4 class="main__title">QuestAns</h4>
         <div class="links-reglog">
@@ -14,7 +14,7 @@
                 <button>Регистрация</button>
             </a>
         </div>
-        <a href="" class="link-find-cards">
+        <a href="{% url 'cards'%}" class="link-find-cards">
             <button>Начать решать карточки</button>
         </a>
     </main>

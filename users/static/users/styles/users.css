@@ -1,4 +1,8 @@
 .auth-block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex:1;
     >form{
         display: flex;
         flex-direction: column;

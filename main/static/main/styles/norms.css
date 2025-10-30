@@ -9,6 +9,8 @@ body{
     line-height: 1;
     font-size: 16px;
     color: #000;
+    display: grid;
+    
 }
 /*---------------------------------------------------------------*/
 .wrapper{
