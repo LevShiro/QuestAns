@@ -7,6 +7,7 @@
     <main class="main-block main-block__group">
         
         {{group.title}}
+        <a href="{% url 'home'%}">На главную</a>
         <ul class="card-list">
             {% for card in cards %}
             <li class="card-item"> 
