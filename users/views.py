@@ -11,7 +11,7 @@ def register_user(request):
         if form.is_valid():
             new_user = form.save()
             login(request,new_user,backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('cards')
+            return redirect('home')
     else:
         form = RegisterForm()
     context = {'form':form}
@@ -29,7 +29,7 @@ def login_user(request):
             user = authenticate(username=username, password = password)
             if user is not None:
                 login(request,user)
-                return redirect('cards')
+                return redirect('home')
     else:
         form = LoginForm()
     data = {'form':form}

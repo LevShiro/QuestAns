@@ -1,0 +1,25 @@
+{% extends 'main/index.html' %}
+
+{% block title %}QuestAns | {{group.title}}{% endblock %}
+
+{% block content %}
+{% include 'main/header.html' %}
+    <main class="main-block main-block__group">
+        
+        {{group.title}}
+        <ul class="card-list">
+            {% for card in cards %}
+            <li class="card-item"> 
+                {% if card.gallery %}
+                    {{card.gallery.first.url}}
+                    {% for photo in card.gallery %}
+                        <img src="{{photo.photo.url}}" alt="">
+                    {% endfor %}
+                {% endif %}
+                <p>Вопрос: {{card.card_object.question}}</p>
+                <p>Ответ: {{card.card_object.answer}}</p>
+            </li> 
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}

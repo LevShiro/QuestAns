@@ -19,7 +19,7 @@ class Card(models.Model):
         return self.question
     
 class GalleryCard(models.Model):
-    photo = models.ImageField(null=True,blank=True,upload_to="imagecards")
+    photo = models.ImageField(null=True,blank=True,upload_to="media/imagecards")
     card = models.ForeignKey(Card,on_delete=models.CASCADE,blank=True,default=None)
     def __str__(self):
         return str(f"{self.card}_{self.photo}")

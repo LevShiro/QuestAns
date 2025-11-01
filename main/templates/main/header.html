@@ -9,7 +9,7 @@
         {% endif %}
         {{request.user.username}}
         <a href="#">Профиль</a>
-        <form action="" method="post">
+        <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
             <button name="logout-button">Выйти</button>
         </form>
