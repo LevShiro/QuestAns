@@ -16,7 +16,7 @@ class Card(models.Model):
     answer = models.CharField(max_length=100)
     in_group = models.ForeignKey(Group_cards,on_delete=models.CASCADE,blank=True)
     def __str__(self):
-        return self.question
+        return self.questionh
     
 class GalleryCard(models.Model):
     photo = models.ImageField(null=True,blank=True,upload_to="media/imagecards")

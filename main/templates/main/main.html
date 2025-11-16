@@ -4,12 +4,8 @@
 
 {% block content %}
     {% include 'main/header.html' %}
-    <main class="main-block">
-        <ul class="groups-list">
-            {% for group in groups %}
-                <li class="group-item"><a href="{% url 'group' group_id=group.id group_name=group.title %}">{{group.title}}</a></li>
-            {% endfor %}
-        </ul>
+    <main class="main-block wrap">
+        {% include "cards/particles/find_group.html" %}
     </main>
     
 {% endblock %}

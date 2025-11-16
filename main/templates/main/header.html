@@ -1,21 +1,25 @@
 {% load static %}
 <header class="main-header">
-    <div class="main-header__user-block">
-        {% if request.user.is_authenticated %}
-        {% if request.user.avatar %}
-            <img src="{{request.user.avatar.url}}" class="main-header__avatar-user">
-        {% else %}
-            <img src="{% static 'main/images/non-auth.png' %}" class="main-header__avatar-user">
-        {% endif %}
-        {{request.user.username}}
-        <a href="#">Профиль</a>
-        <form action="{% url 'home' %}" method="post">
-            {% csrf_token %}
-            <button name="logout-button">Выйти</button>
-        </form>
-        {% else %}
-            <span>Пользователь не авторизован!</span>
-            <a href="{% url 'login' %}">Авторизоваться</a>
-        {% endif %}
+    <div class="main-header__wrap wrap">
+        <div class="main-header__user-block">
+            {% if request.user.is_authenticated %}
+            {% if request.user.avatar %}
+                <img src="{{request.user.avatar.url}}" class="main-header__avatar-user">
+            {% else %}
+                <img src="{% static 'main/images/non-auth.png' %}" class="main-header__avatar-user">
+            {% endif %}
+            {{request.user.username}}
+            <a href="{% url 'profile' %}">Профиль</a>
+            <form action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+                <button name="logout-button">Выйти</button>
+            </form>
+            {% else %}
+                <span>Пользователь не авторизован!</span>
+                <a href="{% url 'login' %}">Авторизоваться</a>
+            {% endif %}
+        </div>
+        <input type="text" id="find_group">
+        <button id="find_button" onclick="test(`{% url 'find_cards' %}`)">Найти</button>
     </div>
 </header>

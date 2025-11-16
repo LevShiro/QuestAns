@@ -2,6 +2,10 @@ body{
     display: flex;
     flex-direction: column;
 }
+.wrap
+{
+    margin:0 8% 0 8% ;
+}
 .main__title{
     text-align: center;
 }
@@ -14,9 +18,21 @@ body{
     display: flex;
     align-items: center;
 }
+.main-header__wrap{
+    width: 100%;
+}
 .main-block{
     flex:1
 }
 .main-header__avatar-user{
     max-width: 50px;
+}
+.group-item{
+    display: inline-block;
+    border: 1px solid black;
+}
+.groups-list{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    gap: 3%;
 }

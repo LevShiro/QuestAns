@@ -1,0 +1,20 @@
+{% extends "main/index.html" %}
+
+{% block title %}QuestAns | {{request.user.username}}{% endblock %}
+
+{% block content %}
+{% include 'main/header.html' %}
+    <main class="main-block wrap">
+        <a href="{% url 'home'%}">На главную</a>
+        <h4>Мои темы:</h4>
+        <ul class="groups-list">
+            {% for group in my_groups %}
+                <li class="group-item">
+                    <a href="{% url 'group' group_id=group.id %}">
+                        <h4 class="group-item__title">{{group.title}}</h4>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}
