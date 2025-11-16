@@ -19,7 +19,7 @@
                 <a href="{% url 'login' %}">Авторизоваться</a>
             {% endif %}
         </div>
-        <input type="text" id="find_group">
+        <input type="text" id="find_group" value="{{input_value}}">
         <button id="find_button" onclick="test(`{% url 'find_cards' %}`)">Найти</button>
     </div>
 </header>

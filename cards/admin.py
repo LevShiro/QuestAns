@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Group_cards)
 admin.site.register(Card)
 admin.site.register(GalleryCard)
+admin.site.register(UserRaiting)

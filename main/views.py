@@ -4,8 +4,8 @@ from cards.models import Group_cards
 from django.views import View
 # Create your views here.
 def main(request):
-    groups = Group_cards.objects.all()
-    print(groups)
+    groups = Group_cards.objects.all()[:5]
+    
     if "logout-button" in request.POST:
         logout(request)
         return redirect('home')

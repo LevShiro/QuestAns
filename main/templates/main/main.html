@@ -2,10 +2,11 @@
 
 {% block title %}QuestAns{% endblock %}
 
+{% load static %}
 {% block content %}
     {% include 'main/header.html' %}
     <main class="main-block wrap">
         {% include "cards/particles/find_group.html" %}
     </main>
-    
+    <script src="{% static 'cards/scripts/find_cards.js' %}"></script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import logout
 from django.http import JsonResponse
+from django.db.models import Q
 
 from .models import *
 # Create your views here. im 
@@ -18,6 +19,12 @@ def cards(request,group_id):
 
 def find_cards(request):
     if request.method == "GET":
-        print(request.headers['group-name'])
-    data = {'my_answer':'Ответ получен!'}
-    return JsonResponse(data)
+        query=request.headers['group-name']
+    groups = Group_cards.objects.filter(Q(title__contains=query))[:5]
+    print(groups)
+    data = {
+        'groups':groups,
+        'input_value':query,
+    }
+    return render(request,"cards/particles/find_group.html",data)
+    

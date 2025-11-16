@@ -16,10 +16,18 @@ class Card(models.Model):
     answer = models.CharField(max_length=100)
     in_group = models.ForeignKey(Group_cards,on_delete=models.CASCADE,blank=True)
     def __str__(self):
-        return self.questionh
+        return self.question
     
 class GalleryCard(models.Model):
     photo = models.ImageField(null=True,blank=True,upload_to="media/imagecards")
     card = models.ForeignKey(Card,on_delete=models.CASCADE,blank=True,default=None)
     def __str__(self):
         return str(f"{self.card}_{self.photo}")
+
+class UserRaiting(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    raiting = models.IntegerField()
+    group = models.OneToOneField(Group_cards,on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.user}_{self.group}"
+    

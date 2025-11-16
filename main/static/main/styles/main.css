@@ -31,7 +31,7 @@ body{
     display: inline-block;
     border: 1px solid black;
 }
-.groups-list{
+#groups-list{
     display: grid;
     grid-template-columns: 30% 30% 30%;
     gap: 3%;
