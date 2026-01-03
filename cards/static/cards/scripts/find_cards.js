@@ -74,7 +74,7 @@ function test() {
 
 
 
-    fetch(cards_api_url, { headers: { "group-name": input.value, "start": 1, "end": 10 } })
+    fetch(cards_api_url, { headers: { "group-name": input.value, "start": 0, "end": 3 } })
     .then(function (v) { return v.text();})
     .then(reolve_data)
 
