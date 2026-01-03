@@ -97,16 +97,19 @@ function on_text_field_update() {
     cur_text = a;
     update();
 
-
-
-
 }
 
 function make_request(start, end) {
     fetching = true;
-    fetch(cards_api_url, { headers: { "group-name": input.value, "start": start, "end": end } })
-        .then(function (v) { return v.text(); })
-        .then(reolve_data);
+    try {
+        fetch(cards_api_url, { headers: { "group-name": cur_text, "start": start, "end": end } })
+            .then(function (v) { return v.text(); })
+            .then(reolve_data)
+            .catch(function (e) {consoe.error(e) });
+    } catch (e) {
+        console.error(e)
+    }
+   
 }
 
 
