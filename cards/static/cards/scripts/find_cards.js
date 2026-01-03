@@ -50,7 +50,7 @@ function reset_elems() {
             console.log("removing element error while update table: ", er)
         }
     }
-    
+    elems = []
     
 }
 
@@ -68,42 +68,45 @@ function reolve_data(data){
         
         console.log("current stop ", last_id)
     }
-    let pre_end = elems.length - 1;
+    
     root.insertAdjacentHTML('beforeend', data);
-    
-    
 
+    let pre_end = elems.length - 1;
+    let tec = root.lastChild()
+
+    while (tec != null && tec !== elems[pre_end]) {
+        elems[elems.length] = tec;
+        tec = tec.previousSibling();
+    }
+
+    fetching = false;
+    update();
 }
 
+function update() {
+    if (cur_text != fetch_text && !fetching) {
+        reset_elems();
+        make_request(0, 10);
+    }
+}
 
 function on_text_field_update() {
-    a = input.value
-    a = a.toLowerCase()
-    a = a.trim()
-    cur_text = a
-    console.log(cur_text)
-    if (cur_text != fetch_text && !fetching) {
-        make_request(0, 10)
-    }
+    a = input.value;
+    a = a.toLowerCase();
+    a = a.trim();
+    cur_text = a;
+    update();
+
 
 
 
 }
 
 function make_request(start, end) {
-    fetching = true
+    fetching = true;
     fetch(cards_api_url, { headers: { "group-name": input.value, "start": start, "end": end } })
         .then(function (v) { return v.text(); })
-        .then(reolve_data)
+        .then(reolve_data);
 }
 
-function test() {    
-    
-
-
-
-
-
-    
-}
 
