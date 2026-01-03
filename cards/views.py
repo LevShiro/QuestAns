@@ -20,11 +20,10 @@ def cards(request,group_id):
 def find_cards(request):
     if request.method == "GET":
         query=request.headers['group-name']
-    groups = Group_cards.objects.filter(Q(title__contains=query))[:5]
-    print(groups)
+    groups = Group_cards.objects.filter(Q(title__contains=query))[int(request.headers['start']):int(request.headers['end'])]
+    
     data = {
         'groups':groups,
-        'input_value':query,
     }
     return render(request,"cards/particles/find_group.html",data)
     
