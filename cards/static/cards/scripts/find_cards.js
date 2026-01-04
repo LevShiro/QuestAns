@@ -1,82 +1,143 @@
 
 
-chk_interval = setTimeout(configure_listeners, 10000);
+var chk_interval = setTimeout(configure_listeners, 10000);
+
+var cards_api_url = '/cards/api/find_cards/';
+
+var step = 10;
+
+var elems = [];
+
+var fetching = false;
+
+var fetch_text = '';
+var cur_text = '';
+var end_of_data = false;
+
 
 var input;
 var root;
+
 configure_listeners();
 
 function configure_listeners(){
 
-a = document.getElementById("find_button");
-input = document.getElementById("find_group");
-root = document.getElementById("groups-list");
+    a = document.getElementById("find_button");
+    input = document.getElementById("find_group");
+    root = document.getElementById("groups-list");
 
-if (a == null || input == null || root == null){
-    chk_interval = setTimeout(configure_listeners, 1000);
-    console.log("waiting load")
-    return;
+    if (a == null || input == null || root == null){
+        chk_interval = setTimeout(configure_listeners, 1000);
+        console.log("waiting load");
+        return;
+    }
+
+    clearInterval(chk_interval);
+    chk_interval = null;
+    input.addEventListener('input', on_text_field_update);
+//input.addEventListener('change', on_text_field_update);
+    window.addEventListener('scroll', on_scroll);
+
+    console.log("loaded");
+
 }
 
-clearInterval(chk_interval);
-chk_interval = null;
-input.addEventListener('change',test);
-console.log("loaded")
 
+
+
+
+function update() {
+    if (cur_text != fetch_text && !fetching) {
+        reset_elems();
+        make_request(0, step);
+        return;
+    }
+    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching) {
+        
+        make_request(elems.length, elems.length + step);
+        return;
+    }
 }
 
 
-cards_api_url = '/cards/api/find_cards/'
-
-step = 10
-last_id = null;
-elems = []
-
-console.log("scrpt init")
-
-function reolve_data(data){
-    id = 0;
-
-
-    console.log(data); 
+function reset_elems() {
+    
     for (i in elems){
         try{
             root.removeChild(i);
         }
         catch(er){
-            console.log("removing element error while update table: ", er)
+            console.log("removing element error while update table: ", er);
         }
     }
+    elems = [];
+    end_of_data = false;
+    
+}
 
-    if (data == 'stop'){
-        if (last_id == null) last_id = id;
-        else if(last_id > id ) last_id = id;
-
-        console.log("current stop ", last_id)
+function make_request(start, end) {
+    fetching = true;
+    fetch_text = cur_text;
+    try {
+        fetch(cards_api_url, { headers: { "group-name": fetch_text, "start": start, "end": end } })
+            .then(function (v) { return v.text(); })
+            .then(reolve_data)
+            .catch(function (e) {
+                console.error(e);
+                end_of_data = true;
+                fetching = false;
+            });
+    } catch (e) {
+        end_of_data = true;
+        fetching = false;
+        console.error(e)
     }
-    let pre_end = elems.length - 1;
-    root.insertAdjacentHTML('beforeend', data);
-    
-
 
 }
 
-function on_text_field_update(){
+function reolve_data(data){
+    id = 0;
+    
+    
+    console.log(data); 
+    
+    
+    if (data == 'stop') {
+        end_of_data = true;
+    } else {
 
+        root.insertAdjacentHTML('beforeend', data);
 
+        let pre_end = elems.length - 1;
+        let tec = root.lastChild()
 
-
+        while (tec != null && tec !== elems[pre_end]) {
+            elems[elems.length] = tec;
+            tec = tec.previousSibling();
+        }
+    }
+    fetching = false;
+    update();
 }
 
 
-function test() {    
-    
 
+function on_text_field_update() {
+    a = input.value;
+    a = a.toLowerCase();
+    a = a.trim();
+    cur_text = a;
+    update();
 
-
-    fetch(cards_api_url, { headers: { "group-name": input.value, "start": 1, "end": 10 } })
-    .then(function (v) { return v.text();})
-    .then(reolve_data)
-
-    
 }
+
+function on_scroll() {
+    
+    if (!end_of_data) {
+        update();
+    }
+}
+
+
+
+console.log("scrpt init")
