@@ -22,11 +22,10 @@ configure_listeners();
 
 function configure_listeners(){
 
-    a = document.getElementById("find_button");
     input = document.getElementById("find_group");
     root = document.getElementById("groups-list");
 
-    if (a == null || input == null || root == null){
+    if (input == null || root == null){
         chk_interval = setTimeout(configure_listeners, 1000);
         console.log("waiting load");
         return;
@@ -80,8 +79,15 @@ function make_request(start, end) {
     fetching = true;
     fetch_text = cur_text;
     try {
-        fetch(cards_api_url, { headers: { "group-name": fetch_text, "start": start, "end": end } })
-            .then(function (v) { return v.text(); })
+        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
+            .then(function (v) {
+                if (!v.ok) {
+                    //какая то реакция на неправильный код статуса
+                    return '';
+                } else { 
+                return v.text();
+            }
+            })
             .then(reolve_data)
             .catch(function (e) {
                 console.error(e);
@@ -100,7 +106,6 @@ function reolve_data(data){
     id = 0;
     
     
-    console.log(data); 
     
     
     if (data == '') {
@@ -110,11 +115,11 @@ function reolve_data(data){
         root.insertAdjacentHTML('beforeend', data);
 
         let pre_end = elems.length - 1;
-        let tec = root.lastChild()
+        let tec = root.lastChild
 
         while (tec != null && tec !== elems[pre_end]) {
             elems[elems.length] = tec;
-            tec = tec.previousSibling();
+            tec = tec.previousSibling;
         }
     }
     fetching = false;
