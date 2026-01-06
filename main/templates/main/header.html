@@ -20,7 +20,11 @@
             {% endif %}
         </div>
         
-        <input type="text" id="find_group" value="{{input_value}}">
-        <button id="find_button" onclick="test(`{% url 'find_cards' %}`)">Найти</button>
+        {% if request.resolver_match.url_name == "home" %}
+            <input type="text" id="find_group" value="{{input_value}}">
+            <button id="find_button" onclick="test(`{% url 'find_cards' %}`)">Найти</button>
+        {% else %}
+            <a href="{% url 'home' %}" class="link_search_groups">Найти тест</a>
+        {% endif %}
     </div>
 </header>
