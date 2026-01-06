@@ -22,11 +22,10 @@ configure_listeners();
 
 function configure_listeners(){
 
-    a = document.getElementById("find_button");
     input = document.getElementById("find_group");
     root = document.getElementById("groups-list");
 
-    if (a == null || input == null || root == null){
+    if (input == null || root == null){
         chk_interval = setTimeout(configure_listeners, 1000);
         console.log("waiting load");
         return;
