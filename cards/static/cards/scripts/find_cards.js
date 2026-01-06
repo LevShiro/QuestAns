@@ -109,11 +109,11 @@ function reolve_data(data){
         root.insertAdjacentHTML('beforeend', data);
 
         let pre_end = elems.length - 1;
-        let tec = root.lastChild()
+        let tec = root.lastChild
 
         while (tec != null && tec !== elems[pre_end]) {
             elems[elems.length] = tec;
-            tec = tec.previousSibling();
+            tec = tec.previousSibling;
         }
     }
     fetching = false;
