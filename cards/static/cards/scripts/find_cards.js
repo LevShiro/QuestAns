@@ -79,8 +79,15 @@ function make_request(start, end) {
     fetching = true;
     fetch_text = cur_text;
     try {
-        fetch(cards_api_url, { headers: { "group-name": fetch_text, "start": start, "end": end } })
-            .then(function (v) { return v.text(); })
+        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
+            .then(function (v) {
+                if (!v.ok) {
+                    //какая то реакция на неправильный код статуса
+                    return '';
+                } else { 
+                return v.text();
+            }
+            })
             .then(reolve_data)
             .catch(function (e) {
                 console.error(e);
@@ -99,7 +106,6 @@ function reolve_data(data){
     id = 0;
     
     
-    console.log(data); 
     
     
     if (data == '') {
