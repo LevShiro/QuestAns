@@ -1,9 +1,9 @@
-<ul id="groups-list">
-    {% for group in groups %}
-        <li class="group-item">
-            <a href="{% url 'group' group_id=group.id %}">
-                <h4 class="group-item__title">{{group.title}}</h4>
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+
+{% for group in groups %}
+    <li class="group-item">
+        <a href="{% url 'group' group_id=group.id %}">
+            <h4 class="group-item__title">{{group.title}}</h4>
+        </a>
+    </li>
+{% endfor %}
+
