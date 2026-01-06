@@ -4,7 +4,7 @@ var chk_interval = setTimeout(configure_listeners, 10000);
 
 var cards_api_url = '/cards/api/find_cards/';
 
-var step = 10;
+var step = 3;
 
 var elems = [];
 

@@ -30,6 +30,12 @@ body{
 .group-item{
     display: inline-block;
     border: 1px solid black;
+    min-height: 500px;
+    >a{
+        display: block;
+        min-height: 100%;
+        min-width: 100%;
+    }
 }
 #groups-list{
     display: grid;

@@ -22,6 +22,6 @@
             </li> 
             {% endfor %}
         </ul>
-        <a href="">Решать тест</a>
+        <a href="{% url 'go_test' group_id=group.id %}">Решать тест</a>
     </main>
 {% endblock %}
