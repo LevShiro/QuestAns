@@ -18,12 +18,20 @@ def cards(request,group_id):
     return render(request,'cards/group.html',context)
 
 def find_cards(request):
+    
     if request.method == "GET":
         query=request.headers['group-name']
     groups = Group_cards.objects.filter(Q(title__contains=query))[int(request.headers['start']):int(request.headers['end'])]
-    
+    print(query)
+    print(groups)
     data = {
         'groups':groups,
     }
     return render(request,"cards/particles/find_group.html",data)
-    
+
+def go_test(request,group_id):
+    group = Group_cards.objects.get(id = group_id)
+    context = {
+        "group": group
+    }
+    return render(request,"cards/go_test.html",context)

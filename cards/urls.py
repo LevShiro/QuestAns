@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     path('group_id=<int:group_id>',views.cards,name='group'),
     path('api/find_cards/',views.find_cards,name='find_cards'),
-    
+    path('group_id=<int:group_id>/go_test',views.go_test,name='go_test')
 ]
