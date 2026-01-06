@@ -62,7 +62,7 @@ function update() {
 
 function reset_elems() {
 
-    while (root.children[0] != null)
+    while (root.children[0] != null) {
 
         try{
             root.removeChild(root.children[0]);
