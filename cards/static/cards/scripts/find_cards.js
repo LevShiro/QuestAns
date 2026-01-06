@@ -4,13 +4,13 @@ var chk_interval = setTimeout(configure_listeners, 10000);
 
 var cards_api_url = '/cards/api/find_cards/';
 
-var step = 10;
+var step = 3;
 
 var elems = [];
 
 var fetching = false;
 
-var fetch_text = '';
+var fetch_text = 'you should not read this';
 var cur_text = '';
 var end_of_data = false;
 
@@ -61,10 +61,11 @@ function update() {
 
 
 function reset_elems() {
-    
-    for (i in elems){
+
+    while (root.children[0] != null)
+
         try{
-            root.removeChild(i);
+            root.removeChild(root.children[0]);
         }
         catch(er){
             console.log("removing element error while update table: ", er);
@@ -102,7 +103,7 @@ function reolve_data(data){
     console.log(data); 
     
     
-    if (data == 'stop') {
+    if (data == '') {
         end_of_data = true;
     } else {
 
@@ -141,3 +142,4 @@ function on_scroll() {
 
 
 console.log("scrpt init")
+update();
