@@ -51,7 +51,7 @@ function update() {
         make_request(0, step);
         return;
     }
-    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching) {
+    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching && !end_of_data) {
         
         make_request(elems.length, elems.length + step);
         return;
@@ -114,12 +114,17 @@ function reolve_data(data){
 
         root.insertAdjacentHTML('beforeend', data);
 
-        let pre_end = elems.length - 1;
-        let tec = root.lastChild
+        let end = elems.length;
+        let tec = root.lastElementChild;
+        let ok = false;
 
-        while (tec != null && tec !== elems[pre_end]) {
-            elems[elems.length] = tec;
-            tec = tec.previousSibling;
+        while (tec != null && tec != elems[end - 1]) {
+            elems.splice(pre_end, 0, tec);
+            tec = tec.previousElementSibling;
+            ok = true;
+        }
+        if (!ok) {
+            end_of_data = true;
         }
     }
     fetching = false;
