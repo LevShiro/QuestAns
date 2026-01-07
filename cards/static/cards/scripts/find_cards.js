@@ -119,7 +119,7 @@ function reolve_data(data){
         let ok = false;
 
         while (tec != null && tec != elems[end - 1]) {
-            elems.splice(pre_end, 0, tec);
+            elems.splice(end, 0, tec);
             tec = tec.previousElementSibling;
             ok = true;
         }
