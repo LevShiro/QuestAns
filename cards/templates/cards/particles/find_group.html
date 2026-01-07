@@ -3,6 +3,8 @@
     <li class="group-item">
         <a href="{% url 'group' group_id=group.id %}">
             <h4 class="group-item__title">{{group.title}}</h4>
+            <span class="group-item__author">Автор: {{group.author}}</span>
+            <span>Оценка: {{t}}</span>
         </a>
     </li>
 {% endfor %}
