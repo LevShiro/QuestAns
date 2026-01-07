@@ -51,7 +51,7 @@ function update() {
         make_request(0, step);
         return;
     }
-    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching) {
+    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching && !end_of_data) {
         
         make_request(elems.length, elems.length + step);
         return;
@@ -83,6 +83,7 @@ function make_request(start, end) {
             .then(function (v) {
                 if (!v.ok) {
                     //какая то реакция на неправильный код статуса
+                    alert('response error ' + v.status);
                     return '';
                 } else { 
                 return v.text();
@@ -97,9 +98,8 @@ function make_request(start, end) {
     } catch (e) {
         end_of_data = true;
         fetching = false;
-        console.error(e)
+        console.error(e);
     }
-
 }
 
 function reolve_data(data){
@@ -114,12 +114,17 @@ function reolve_data(data){
 
         root.insertAdjacentHTML('beforeend', data);
 
-        let pre_end = elems.length - 1;
-        let tec = root.lastChild
+        let end = elems.length;
+        let tec = root.lastElementChild;
+        let ok = false;
 
-        while (tec != null && tec !== elems[pre_end]) {
-            elems[elems.length] = tec;
-            tec = tec.previousSibling;
+        while (tec != null && tec != elems[end - 1]) {
+            elems.splice(end, 0, tec);
+            tec = tec.previousElementSibling;
+            ok = true;
+        }
+        if (!ok) {
+            end_of_data = true;
         }
     }
     fetching = false;
@@ -130,7 +135,7 @@ function reolve_data(data){
 
 function on_text_field_update() {
     a = input.value;
-    a = a.toLowerCase();
+    
     a = a.trim();
     cur_text = a;
     update();
