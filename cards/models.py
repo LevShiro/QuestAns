@@ -6,6 +6,8 @@ User = get_user_model()
 class Group_cards(models.Model):
     title = models.CharField(max_length=64)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    def group_raiting(self):
+        sum_raitings = UserRaiting.objects.filter(group=self)
     def __str__(self):
         return self.title
     
