@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import Sum
 
 User = get_user_model()
 # Create your models here.
@@ -7,7 +8,13 @@ class Group_cards(models.Model):
     title = models.CharField(max_length=64)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     def group_raiting(self):
-        sum_raitings = UserRaiting.objects.filter(group=self)
+        sum_raitings = UserRaiting.objects.filter(group=self).aggregate(Sum('raiting'))
+        
+        
+        if UserRaiting.objects.filter(group=self).count() == 0:
+            return 0
+        
+        return sum_raitings['raiting__sum'] / UserRaiting.objects.filter(group=self).count()
     def __str__(self):
         return self.title
     

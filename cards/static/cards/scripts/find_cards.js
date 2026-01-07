@@ -82,12 +82,8 @@ function make_request(start, end) {
         fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
             .then(function (v) {
                 if (!v.ok) {
-<<<<<<< Updated upstream
-                    //какая то реакция на неправильный код статуса
-                    alert('response error ' + v.status);
-=======
                     //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
->>>>>>> Stashed changes
+                    alert('response error ' + v.status);
                     return '';
                 } else { 
                 return v.text();
