@@ -135,7 +135,7 @@ function reolve_data(data){
 
 function on_text_field_update() {
     a = input.value;
-    a = a.toLowerCase();
+    
     a = a.trim();
     cur_text = a;
     update();
