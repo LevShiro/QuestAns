@@ -23,5 +23,19 @@
             {% endfor %}
         </ul>
         <a href="{% url 'go_test' group_id=group.id %}">Решать тест</a>
+        {% if request.user != group.author%}
+        <div class="group__raiting">
+            <select id="raiting__input">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button>Оценить</button>
+        </div>
+        {% elif !user.is_authenticated %}
+            <p>Для оценки надо зарегистрироваться</p>
+        {% endif %}
     </main>
 {% endblock %}
