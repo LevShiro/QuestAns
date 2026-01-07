@@ -83,6 +83,7 @@ function make_request(start, end) {
             .then(function (v) {
                 if (!v.ok) {
                     //какая то реакция на неправильный код статуса
+                    alert('response error ' = v.status);
                     return '';
                 } else { 
                 return v.text();
@@ -97,9 +98,8 @@ function make_request(start, end) {
     } catch (e) {
         end_of_data = true;
         fetching = false;
-        console.error(e)
+        console.error(e);
     }
-
 }
 
 function reolve_data(data){
