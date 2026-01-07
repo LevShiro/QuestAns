@@ -10,13 +10,16 @@ from .models import *
 def cards(request,group_id):
     group = Group_cards.objects.get(id=group_id)
     cards = Card.objects.filter(in_group=group)
+    group_was_rated = group.was_rated(request.user)
     arr_cards = []
+    
     for card in cards:
         arr_cards.append({'card_object':card,'gallery':GalleryCard.objects.filter(card=card)})
     context = {
         'group':group,
-        'cards':arr_cards
-        }
+        'cards':arr_cards,
+        'was_rated':group_was_rated
+    }
     return render(request,'cards/group.html',context)
 
 #@ratelimit(key='ip',rate='1/s',block=True)
