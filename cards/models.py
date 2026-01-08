@@ -15,8 +15,7 @@ class Group_cards(models.Model):
         return sum_raitings['raiting__sum'] / UserRaiting.objects.filter(group=self).count()
     
     def was_rated(self,request_user):
-        if UserRaiting.objects.filter(user = request_user,group = self).exists():
-            print(UserRaiting.objects.get(user = request_user,group = self).raiting)
+        if request_user.is_authenticated and UserRaiting.objects.filter(user = request_user,group = self).exists():
             return UserRaiting.objects.get(user = request_user,group = self).raiting
         return False
     
