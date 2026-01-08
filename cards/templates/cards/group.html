@@ -34,11 +34,11 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <button>Оценить</button>
+                    <button id="group__raiting__button">Оценить</button>
                 </div>
             {% else %}
                 <span>Ваша оценка: {{was_rated}}</span>
-                <button>Отменить оценку</button>
+                <button id="group__raiting__button__cancel_rate">Отменить оценку</button>
             {% endif %}
         {% endif %}
     </main>
