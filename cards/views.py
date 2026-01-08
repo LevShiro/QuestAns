@@ -52,6 +52,6 @@ def go_test(request,group_id):
     return render(request,"cards/go_test.html",context)
 
 def user_raiting(request):
-    if request.method == "GET":
+    if request.method == "POST":
         print('Пришёл запрос!')
     return render(request,'cards/group.html')
