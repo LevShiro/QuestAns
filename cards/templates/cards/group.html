@@ -38,7 +38,7 @@
                 </div>
             {% else %}
                 <span>Ваша оценка: {{was_rated}}</span>
-                <button id="group__raiting__button__cancel_rate">Отменить оценку</button>
+                <button id="group__raiting__button__cancel_rate" onclick="pull_url(`{{group.id}}`)">Отменить оценку</button>
             {% endif %}
         {% endif %}
     </main>
