@@ -50,3 +50,8 @@ def go_test(request,group_id):
         "cards":cards
     }
     return render(request,"cards/go_test.html",context)
+
+def user_raiting(request):
+    if request.method == "GET":
+        print('Пришёл запрос!')
+    return render(request,'cards/group.html')
