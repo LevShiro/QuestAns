@@ -34,7 +34,7 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <button id="group__raiting__button">Оценить</button>
+                    <button id="group__raiting__button" onclick="pull_url(`{{group.id}}`)" >Оценить</button>
                 </div>
             {% else %}
                 <span>Ваша оценка: {{was_rated}}</span>
