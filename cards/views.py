@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django_ratelimit.decorators import ratelimit
 import urllib.parse
+import json
 
 from .models import *
 # Create your views here. im 
@@ -43,8 +44,6 @@ def find_cards(request):
 def go_test(request,group_id):
     group = Group_cards.objects.get(id = group_id)
     cards = Card.objects.filter(in_group=group).order_by('?')
-    
-    
     context = {
         "group": group,
         "cards":cards
@@ -52,6 +51,6 @@ def go_test(request,group_id):
     return render(request,"cards/go_test.html",context)
 
 def user_raiting(request):
-    if request.method == "POST":
-        print('Пришёл запрос!')
-    return render(request,'cards/group.html')
+    group_id = request.headers['group-id']
+    print(123)
+    return redirect('group',group_id)
