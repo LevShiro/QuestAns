@@ -34,3 +34,7 @@ function set_mark(group_id) {
 
 
 }
+
+function delete_mark(group_id) {
+    
+}

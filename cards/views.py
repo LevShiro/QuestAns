@@ -52,5 +52,11 @@ def go_test(request,group_id):
 
 def user_raiting(request):
     group_id = request.headers['group-id']
-    print(123)
+    group =  Group_cards.objects.get(id = group_id)
+    raiting = request.headers['mark']
+    if UserRaiting.objects.filter(user = request.user, group = group).exists():
+        print("Уже оценён!")
+    else:
+        user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
+        user_raiting.save()
     return redirect('group',group_id)

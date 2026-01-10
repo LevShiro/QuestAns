@@ -1,17 +1,18 @@
 {% if request.user != group.author and user.is_authenticated %}
-    {% if not was_rated %}
-        <div class="group__raiting">
-            <select id="raiting__input">
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-            </select>
-            <button id="group__raiting__button" onclick="set_mark(`{{group.id}}`)">Оценить</button>
-        </div>
-    {% else %}
-        <span>Ваша оценка: {{was_rated}}</span>
-        <button id="group__raiting__button__cancel_rate">Отменить оценку</button>
-    {% endif %}
+    <div id="group__raiting"> 
+        {% if not was_rated %}
+                <select id="raiting__input">
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+                <button id="group__raiting__button" onclick="set_mark(`{{group.id}}`)">Оценить</button>
+            
+        {% else %}
+            <span>Ваша оценка: {{was_rated}}</span>
+            <button id="group__raiting__button__cancel_rate" onclick="delete_mark(`{{group.id}}`)">Отменить оценку</button>
+        {% endif %}
+    </div>   
 {% endif %}
