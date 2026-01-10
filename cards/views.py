@@ -57,6 +57,9 @@ def user_raiting(request):
     if UserRaiting.objects.filter(user = request.user, group = group).exists():
         print("Уже оценён!")
     else:
-        user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
-        user_raiting.save()
+        if raiting>5 and raiting<0:
+            return redirect('group',group_id)
+        else:
+            user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
+            user_raiting.save()
     return redirect('group',group_id)
