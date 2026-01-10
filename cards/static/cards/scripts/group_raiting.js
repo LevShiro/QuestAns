@@ -6,13 +6,20 @@ function set_mark(group_id) {
     let a = document.getElementById(selector_id);
     let v = Number.parseInt(a.value);
 
+    console.log(group_id)
     if (isNaN(v) || v > 5 || v < 1) {
         console.error('invalid raiting', a.value)
         return;
     }
     try {
-        fetch(rating_api_url, { method: "POST", headers: { "group-id": group_id, "mark": v } })
-            .then(function (v) {
+        fetch(rating_api_url, { 
+            method: "POST", 
+            headers: {
+                'X-CSRFToken': Cookies.get('csrftoken'),
+                "mark": v,
+                "group-id": group_id,
+            } 
+            }).then(function (v) {
                 if (!v.ok) {
                     console.error('response error ' + v.status);
                     return;
@@ -26,4 +33,8 @@ function set_mark(group_id) {
     }
 
 
+}
+
+function delete_mark(group_id) {
+    
 }
