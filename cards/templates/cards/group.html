@@ -24,23 +24,8 @@
             {% endfor %}
         </ul>
         <a href="{% url 'go_test' group_id=group.id %}">Решать тест</a>
-        {% if request.user != group.author and user.is_authenticated %}
-            {% if not was_rated %}
-                <div class="group__raiting">
-                    <select id="raiting__input">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <button id="group__raiting__button" onclick="pull_url(`{{group.id}}`)" >Оценить</button>
-                </div>
-            {% else %}
-                <span>Ваша оценка: {{was_rated}}</span>
-                <button id="group__raiting__button__cancel_rate">Отменить оценку</button>
-            {% endif %}
-        {% endif %}
+        {% include 'cards/particles/raiting_group.html' %}
     </main>
+    <script src="{% static 'cards/scripts/cookie.js'%}"></script>
     <script src="{% static 'cards/scripts/group_raiting.js'%}"></script>
 {% endblock %}
