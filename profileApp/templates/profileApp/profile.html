@@ -11,10 +11,15 @@
             {% for group in my_groups %}
                 <li class="group-item">
                     <a href="{% url 'group' group_id=group.id %}">
-                        <h4 id="group-item__title">{{group.title}}</h4>
+                        {{group.title}}
                     </a>
                 </li>
             {% endfor %}
+            <li class="group-item">
+                <a href="{% url 'create_group' %}">
+                    <h4 id="group-item__title">Создать группу</h4>
+                </a>
+            </li>
         </ul>
     </main>
 {% endblock %}
