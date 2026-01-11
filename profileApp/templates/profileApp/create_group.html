@@ -1,0 +1,11 @@
+{% extends "main/index.html" %}
+
+{% block title %}QuestAns | Создание группы {% endblock %}
+
+{% block content %}
+{% include 'main/header.html' %}
+    <main class="main-block wrap">
+        <input type="text" placeholder="Название группы карт" class="create_group__input-title">
+        {% include 'profileApp/particles/create_card.html' %}
+    </main>
+{% endblock %}
