@@ -1,0 +1,15 @@
+{% extends 'main/index.html' %}
+
+{% block title %}QuestAns | {{group.title}}{% endblock %}
+
+{% block content %}
+{% include 'main/header.html' %}
+<main class="main-block main-block__go_test wrap">
+    <h4>Вы решаете тест "{{group.title}}"</h4>
+    <aside class="navigation_cards">
+        {% for card in cards %}
+            <button>{{forloop.counter}}</button>
+        {% endfor %}
+    </aside>
+</main>
+{% endblock %}

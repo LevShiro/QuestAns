@@ -6,7 +6,9 @@
 {% block content %}
     {% include 'main/header.html' %}
     <main class="main-block wrap">
-        {% include "cards/particles/find_group.html" %}
+        <ul id="groups-list">
+            {% include "cards/particles/find_group.html" %}
+        </ul>
     </main>
     <script src="{% static 'cards/scripts/find_cards.js' %}"></script>
 {% endblock %}
