@@ -5,6 +5,8 @@ var chk_interval = setTimeout(configure_listeners, 10000);
 var cards_api_url = '/cards/api/find_cards/';
 
 var step = 3;
+var page_bottom_offset = 200;
+
 
 var elems = [];
 
@@ -51,7 +53,7 @@ function update() {
         make_request(0, step);
         return;
     }
-    if (document.body.offsetHeight <= window.innerHeight + window.pageYOffset && !fetching && !end_of_data) {
+    if (document.body.scrollHeight <= window.innerHeight + window.pageYOffset + page_bottom_offset && !fetching && !end_of_data) {
         
         make_request(elems.length, elems.length + step);
         return;
