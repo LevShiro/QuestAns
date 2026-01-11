@@ -33,3 +33,7 @@ function set_mark(group_id) {
 
 }
 
+
+function reset_mark(group_id) {
+    send_data({ "group-id": group_id, "mark": 0 })
+}
