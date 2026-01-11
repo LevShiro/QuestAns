@@ -4,7 +4,9 @@ var chk_interval = setTimeout(configure_listeners, 10000);
 
 var cards_api_url = '/cards/api/find_cards/';
 
+//количество элементов оторое будет запрашиваться к API за раз
 var step = 3;
+//сдвиг нижнего края страницы
 var page_bottom_offset = 200;
 
 
@@ -12,7 +14,7 @@ var elems = [];
 
 var fetching = false;
 
-var fetch_text = 'you should not read this';
+var fetch_text = 'этот текст для того чтобы при загрузке страницы выполнялся пустой запрос для начального заполнения страницы';
 var cur_text = '';
 var end_of_data = false;
 
@@ -36,10 +38,10 @@ function configure_listeners(){
     clearInterval(chk_interval);
     chk_interval = null;
     input.addEventListener('input', on_text_field_update);
-//input.addEventListener('change', on_text_field_update);
+
     window.addEventListener('scroll', on_scroll);
 
-    console.log("loaded");
+    //console.log("loaded");
 
 }
 
@@ -84,7 +86,7 @@ function make_request(start, end) {
         fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
             .then(function (v) {
                 if (!v.ok) {
-                    //какая то реакция на неправильный код статуса
+                    //реакция на неправильный код статуса
                     alert('response error ' + v.status);
                     return '';
                 } else { 
@@ -153,5 +155,5 @@ function on_scroll() {
 
 
 
-console.log("scrpt init")
+//console.log("scrpt init")
 update();
