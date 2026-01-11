@@ -30,15 +30,10 @@ def find_cards(request):
         query = urllib.parse.unquote(query)
     groups = Group_cards.objects.filter(Q(title__contains=query))[int(request.headers['start']):int(request.headers['end'])]
     print(groups,int(request.headers['start']),int(request.headers['end']))
-    print(query)
-    if int(request.headers['start']) <= groups.count():
-        
-        data = {
-            'groups':groups,
-        }
-    else: 
-        data = None
-        groups = None
+    print(query)  
+    data = {
+        'groups':groups,
+    }
     return render(request,"cards/particles/find_group.html",data)
 
 def go_test(request,group_id):
