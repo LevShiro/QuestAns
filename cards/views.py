@@ -29,8 +29,7 @@ def find_cards(request):
         query=request.headers['group-name']
         query = urllib.parse.unquote(query)
     groups = Group_cards.objects.filter(Q(title__contains=query))[int(request.headers['start']):int(request.headers['end'])]
-    print(groups,int(request.headers['start']),int(request.headers['end']))
-    print(query)  
+      
     data = {
         'groups':groups,
     }
@@ -49,12 +48,16 @@ def user_raiting(request):
     group_id = request.headers['group-id']
     group =  Group_cards.objects.get(id = group_id)
     raiting = request.headers['mark']
-    if UserRaiting.objects.filter(user = request.user, group = group).exists():
-        print("Уже оценён!")
+    rait_in_db = UserRaiting.objects.filter(user = request.user, group = group)
+    
+    if rait_in_db.exists() and raiting==0:
+        rait_in_db.delete()
+        return redirect('group',group_id)
     else:
-        if raiting>5 and raiting<0:
+        if raiting>5 or raiting<0:
             return redirect('group',group_id)
         else:
             user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
             user_raiting.save()
     return redirect('group',group_id)
+
