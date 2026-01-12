@@ -35,7 +35,7 @@ async function update_element() {
 
 function send_data(dat) {
     try {
-        fetch(rating_api_url, { method: "POST", headers: dat })
+        fetch(rating_api_url, { method: "POST", headers: { ...dat, 'X-CSRFToken': Cookies.get('csrftoken')} })
             .then(function (v) {
                 if (!v.ok) {
                     console.error('response error ' + v.status);
