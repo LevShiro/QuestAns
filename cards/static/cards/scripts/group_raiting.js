@@ -32,8 +32,6 @@ async function update_element() {
         console.error(e);
     }
 
-
-
 }
 
 
