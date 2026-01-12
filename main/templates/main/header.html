@@ -2,7 +2,7 @@
 <header class="main-header">
     <div class="main-header__wrap wrap">
         <div class="main-header__user-block">
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated %} 
             {% if request.user.avatar %}
                 <img src="{{request.user.avatar.url}}" class="main-header__avatar-user">
             {% else %}
