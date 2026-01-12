@@ -4,25 +4,21 @@ selector_id = "raiting__input"
 update_element_id = ''
 
 
-function update_element() {
-    try {
-        resp = await fetch(document.URL);
-    } catch (e) {
-        console.error(e);
-        return;
-    }
+async function update_element() {
+    let resp = await fetch(document.URL);
+
     
     if (!resp.ok) {
         console.error('get status code ' + resp.status)
         return;
     }
     try {
-        resptext = await resp.text(); // need for check
+        resptext = await resp.text();
         df = new DocumentFragment();
-        df.appendChild(document.createElement('html')).insertAdjacentHTML('afterbegin', resptext)
+        df.appendChild(document.createElement('n')).insertAdjacentHTML('afterbegin', resptext)
         el = df.getElementById(update_element_id);
         if (el == null) {
-            console.error('element on getted not exist');
+            console.error('element on getted page not exist');
             return;
         }
         tel = document.getElementById(update_element_id)
@@ -33,7 +29,7 @@ function update_element() {
         tel.replaceWith(el);
 
     } catch (e) {
-
+        console.error(e);
     }
 
 
@@ -56,6 +52,7 @@ function send_data(dat) {
     } catch (e) {
         console.error(e);
     }
+    update_element();
 }
 
 function set_mark(group_id) {
