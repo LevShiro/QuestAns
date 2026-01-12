@@ -1,9 +1,10 @@
 
 rating_api_url = 'api/raiting_group/'
 selector_id = "raiting__input"
+//элемент который надо обновлять
 update_element_id = ''
 
-
+//функция для обновления элемента без перезагрузки страницы
 async function update_element() {
     let resp = await fetch(document.URL);
 
@@ -51,6 +52,8 @@ function send_data(dat) {
         console.error(e);
     }
     update_element();
+
+
 }
 
 function set_mark(group_id) {
@@ -63,8 +66,6 @@ function set_mark(group_id) {
     }
 
     send_data({ "group-id": group_id, "mark": v });
-
-
 }
 
 
