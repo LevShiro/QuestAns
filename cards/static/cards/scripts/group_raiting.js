@@ -1,4 +1,3 @@
-
 rating_api_url = 'api/raiting_group/'
 selector_id = "raiting__input"
 //элемент который надо обновлять
@@ -7,7 +6,6 @@ update_element_id = 'group__raiting'
 //функция для обновления элемента без перезагрузки страницы
 async function update_element() {
     let resp = await fetch(document.URL);
-
     
     if (!resp.ok) {
         console.error('get status code ' + resp.status)
@@ -28,17 +26,16 @@ async function update_element() {
             return;
         }
         tel.replaceWith(el);
-
+        
     } catch (e) {
         console.error(e);
     }
-
+    
 }
-
 
 function send_data(dat) {
     try {
-        fetch(rating_api_url, { method: "POST", headers: dat })
+        fetch(rating_api_url, { method: "POST", headers: { ...dat, 'X-CSRFToken': Cookies.get('csrftoken')} })
             .then(function (v) {
                 if (!v.ok) {
                     console.error('response error ' + v.status);
@@ -52,22 +49,20 @@ function send_data(dat) {
         console.error(e);
     }
     update_element();
-
-
+    
 }
 
 function set_mark(group_id) {
     let a = document.getElementById(selector_id);
     let v = Number.parseInt(a.value);
-
+    
     if (isNaN(v) || v > 5 || v < 1) {
         console.error('invalid raiting', a.value)
         return;
     }
-
+    
     send_data({ "group-id": group_id, "mark": v });
 }
-
 
 function delete_mark(group_id) {
     send_data({ "group-id": group_id, "mark": 0 })
