@@ -2,7 +2,7 @@
 rating_api_url = 'api/raiting_group/'
 selector_id = "raiting__input"
 //элемент который надо обновлять
-update_element_id = ''
+update_element_id = 'group__raiting'
 
 //функция для обновления элемента без перезагрузки страницы
 async function update_element() {
