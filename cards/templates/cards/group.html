@@ -18,8 +18,8 @@
                         <img src="{{photo.photo.url}}" alt="">
                     {% endfor %}
                 {% endif %}
-                <p>Вопрос: {{card.card_object.question}}</p>
-                <p>Ответ: {{card.card_object.answer}}</p>
+                <p class="card-item__question">Вопрос: {{card.card_object.question}}</p>
+                <p class="card-item__answer">Ответ: {{card.card_object.answer}}</p>
             </li> 
             {% endfor %}
         </ul>

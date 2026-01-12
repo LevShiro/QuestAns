@@ -1,0 +1,19 @@
+.profile__avatar-user{
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.profileApp__profile_inf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+.create_card-block{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    margin: 20px;
+    border: 1px solid black;
+}
