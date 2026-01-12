@@ -2,9 +2,14 @@
 
 {% block title %}QuestAns | Вход{% endblock %}
 
+{% load static %}
+
 {% block content %}
-<main class="auth-block wrap">
+<main class="auth-block">
+    
     <form action="" method="post">
+         <img src="{% static 'main/images/logo.png' %}" alt="Логотип"  class="logo">
+        <h2>Вход</h2>
         {% csrf_token %}
         
         {{form.username}}
