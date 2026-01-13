@@ -3,11 +3,17 @@ const api_to_send_card = '';
 const class_name_for_field = 'field';
 const nomer_attribute_name = 'nom';
 const name_input_id = 'create_group__input-title';
-const delete_button_class = 'create_cart__delete_button';
+const delete_button_class = 'create_card__delete_button';
 
-function add_del_event(e) {
+var root;
+
+function add_del_event(b, e) {
     b.addEventListener('click', function () {
-        on_delete_button_pressed(e);
+        if (root.childElementCount <= 1) {
+            //reaction for remove last card
+            return;
+        }
+        delete_card(e);
     });
 
 }
@@ -16,7 +22,6 @@ function add_del_event(e) {
 
 function add_card() {
 
-    let root = document.getElementById(root_elem_id);
     let el = root.lastElementChild;
     root.appendChild(el.cloneNode(true));
     el = root.lastChild;
@@ -38,13 +43,13 @@ function add_card() {
     }
     let b = el.getElementsByClassName(delete_button_class);
     if (b[0] != null) {
-        add_del_event(b);
+        add_del_event(b[0], el);
     }
 
 }
 
 function send_cards() {
-    let root = document.getElementById(root_elem_id);
+
     result_data = [];
     el = document.getElementById(name_input_id);
     if (el != null) result_data.push(el.value);
@@ -64,19 +69,21 @@ function send_cards() {
                 }
                 continue;
             }
-
-            data.append(i.getAttribute('name'), i.getAttribute('value'));
+            console.log(i.getAttribute('name'), i.value);
+            
+            data.append(i.getAttribute('name'), i.value);
+            for (i of data.values()) { console.log(i) }
         }
         result_data.push(data)
     }
     fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: JSON.stringify(result_data) })
         .then(function (resp) {
-            if (!resp.ok) console.alert('server error code ' + resp.status);
+            if (!resp.ok) alert('server error code ' + resp.status);
         })
-        .catch(console.alert);
+        .catch(alert);
 }
 
-function on_delete_button_pressed(e) {
+function delete_card(e) {
     let elem = e.nextElementSibling;
     while (elem != null) {
         for (i of elem.getElementsByClassName(class_name_for_field)) {
@@ -97,17 +104,22 @@ function on_delete_button_pressed(e) {
 
         elem = elem.nextElementSibling;
     }
-
+    e.remove();
 }
 
 function init() {
-    let root = document.getElementById(root_elem_id);
+    root = document.getElementById(root_elem_id);
+    if (root == null) {
+        setTimeout(init, 1000);
+        console.log('wait for init');
+        return;
+    }
     let el = root.lastElementChild;
     let b = el.getElementsByClassName(delete_button_class);
     if (b[0] != null) {
-        add_del_event(b);
+        add_del_event(b[0], el);
     }
-
+    console.log(b);
 }
 
 
