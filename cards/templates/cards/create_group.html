@@ -5,10 +5,14 @@
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block wrap">
-        <form action="post">
+        <form method="post">
+            {% csrf_token %}
             <input type="text" placeholder="Название группы карт" class="create_group__input-title">
-            {% include 'profileApp/particles/create_card.html' %}
-            <button id="create_group__add_card">Добавить карточку</button>
+            
+            {% include 'cards/particles/create_card.html' %}
+            {% include 'cards/particles/create_card.html' %}
+            
+            <button id="create_group__add_card", name="public_group">Опубликовать группу карт</button>
         </form>
     </main>
 {% endblock %}
