@@ -33,12 +33,13 @@ function configure_listeners(){
     
     clearInterval(chk_interval);
     chk_interval = null;
+    cur_selected = selector.value;
     input.addEventListener('input', on_text_field_update);
     selector.addEventListener('change', on_selector_change);
     window.addEventListener('scroll', on_scroll);
     
     //console.log("loaded");
-    
+    update();
 }
 
 function update() {
@@ -145,4 +146,3 @@ function on_selector_change() {
     update();
 }
 
-update();
