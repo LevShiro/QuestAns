@@ -13,6 +13,11 @@
                 <img src="/static/main/images/non-auth.png" class="profile__avatar-user" alt="">
             {% endif %}
             <h4 class="profileApp__your_name">{{user}}</h4>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.avatar}}
+                <input type="submit" value="Сохранить" id="edit-photo-button" name="photo_edit_button">
+            </form>
         </div>
         <div class="profileApp__my_groups">
             <h4>Мои темы:</h4>

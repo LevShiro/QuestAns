@@ -8,6 +8,9 @@ class Group_cards(models.Model):
     title = models.CharField(max_length=64)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     
+    def quantity_raits(self):
+        return UserRaiting.objects.filter(group=self).count()
+    
     def group_raiting(self):
         sum_raitings = UserRaiting.objects.filter(group=self).aggregate(Sum('raiting'))
         if UserRaiting.objects.filter(group=self).count() == 0:
