@@ -5,7 +5,7 @@ const nomer_attribute_name = 'nom';
 
 
 function add_card() {
-
+    
     let root = document.getElementById(root_elem_id);
     let el = root.lastElementChild;
     root.appendChild(el.cloneNode(true));
@@ -27,9 +27,7 @@ function add_card() {
         }
     }
     
-
 }
-
 
 function send_cards() {
     let root = document.getElementById(root_elem_id);
