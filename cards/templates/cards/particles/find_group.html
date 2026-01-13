@@ -1,9 +1,17 @@
+{% load static %}
 
 {% for group in groups %}
     <li class="group-item">
         <a href="{% url 'group' group_id=group.id %}">
             <h4 class="group-item__title">{{group.title}}</h4>
-            <span class="group-item__author">Автор: {{group.author}}</span>
+            <span class="group-item__author">Автор: {{group.author}}
+                {% if group.author.avatar %}
+                    <img src="{{group.author.avatar.url}}" class="group-item__avatar-user">
+                {% else %}
+                    <img src="{% static 'main/images/non-auth.png' %}" class="group-item__avatar-user">
+                {% endif %}
+            </span>
+
             <span class="group-item__rait">Оценка: {{group.group_raiting}}</span>
         </a>
     </li>
