@@ -9,6 +9,3 @@ def profile(request):
     }
     return render(request,'profileApp/profile.html',context)
 
-def create_group(request):
-    
-    return render(request,'profileApp/create_group.html')
