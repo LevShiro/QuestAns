@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db.models import Q
 import urllib.parse
-#from .forms import CardForm
+from .forms import CardForm
+from django.forms import formset_factory
+
 
 from .models import *
 # Create your views here. im 
@@ -48,7 +50,7 @@ def user_raiting(request):
     group =  Group_cards.objects.get(id = group_id)
     raiting = int(request.headers['mark'])
     rait_in_db = UserRaiting.objects.filter(user = request.user, group = group)
-    
+    print(rait_in_db)
     if rait_in_db.exists() and raiting==0:
         rait_in_db[0].delete()
         print(f'{group} удалена')
@@ -62,8 +64,5 @@ def user_raiting(request):
 
 
 def create_group(request):
-    
-    if "public_group" in request.POST:
-        print(request.POST.get('public_group',''))
     
     return render(request,'cards/create_group.html')
