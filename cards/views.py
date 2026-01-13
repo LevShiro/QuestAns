@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import logout
-from django.http import JsonResponse
+from django.http import HttpResponse
 from django.db.models import Q
 from django_ratelimit.decorators import ratelimit
 import urllib.parse
@@ -45,19 +45,20 @@ def go_test(request,group_id):
     return render(request,"cards/go_test.html",context)
 
 def user_raiting(request):
+    print(123)
     group_id = request.headers['group-id']
     group =  Group_cards.objects.get(id = group_id)
-    raiting = request.headers['mark']
+    raiting = int(request.headers['mark'])
     rait_in_db = UserRaiting.objects.filter(user = request.user, group = group)
     
     if rait_in_db.exists() and raiting==0:
-        rait_in_db.delete()
-        return redirect('group',group_id)
+        rait_in_db[0].delete()
+        print(f'{group} удалена')
     else:
         if raiting>5 or raiting<0:
-            return redirect('group',group_id)
-        else:
+            return HttpResponse(status=200)
+        elif rait_in_db.exists() == False and (raiting<=5 and raiting>0):
             user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
             user_raiting.save()
-    return redirect('group',group_id)
+    return HttpResponse(status=200)
 
