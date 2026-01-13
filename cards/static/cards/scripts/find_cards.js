@@ -11,18 +11,21 @@ var fetching = false;
 var fetch_text = 'this text for starting empty response to fill page';
 var cur_text = '';
 var end_of_data = false;
-
+var selected_fetch = '';
+var cur_selected = '';
 
 var input;
 var root;
+var selector;
 
 configure_listeners();
 
 function configure_listeners(){
     input = document.getElementById("find_group");
     root = document.getElementById("groups-list");
+    selector = document.getElementById("sort_find_input");
     
-    if (input == null || root == null){
+    if (input == null || root == null || selector == null){
         chk_interval = setTimeout(configure_listeners, 1000);
         console.log("waiting load");
         return;
@@ -31,7 +34,7 @@ function configure_listeners(){
     clearInterval(chk_interval);
     chk_interval = null;
     input.addEventListener('input', on_text_field_update);
-    
+    selector.addEventListener('change', on_selector_change);
     window.addEventListener('scroll', on_scroll);
     
     //console.log("loaded");
@@ -39,7 +42,7 @@ function configure_listeners(){
 }
 
 function update() {
-    if (cur_text != fetch_text && !fetching) {
+    if ((cur_text != fetch_text || cur_selected != selected_fetch) && !fetching) {
         reset_elems();
         make_request(0, step);
         return;
@@ -70,8 +73,9 @@ function reset_elems() {
 function make_request(start, end) {
     fetching = true;
     fetch_text = cur_text;
+    selected_fetch = cur_selected;
     try {
-        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
+        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end, "sort": selected_fetch } })
             .then(function (v) {
                 if (!v.ok) {
                     //reaction to incorrect status code
@@ -136,5 +140,9 @@ function on_scroll() {
     }
 }
 
+function on_selector_change() {
+    cur_selected = selector.value;
+    update();
+}
 
 update();
