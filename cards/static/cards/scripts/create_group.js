@@ -50,15 +50,17 @@ function add_card() {
 
 function send_cards() {
 
-    result_data = [];
+    let group_name = '';
     el = document.getElementById(name_input_id);
-    if (el != null) result_data.push(el.value);
+
+    if (el != null) group_name = el.value;
     else {
         console.error('element eith id', name_input_id, 'not found');
-        result_data.push('');
+        group_name = '';
     }
     for (card of root.children) {
         data = new FormData();
+        data.append('group_name', group_name);
         elems = card.getElementsByClassName(class_name_for_field);
         for (i of elems) {
             if (i.hasAttribute(nomer_attribute_name)) continue;
@@ -69,18 +71,16 @@ function send_cards() {
                 }
                 continue;
             }
-            console.log(i.getAttribute('name'), i.value);
-            
+
             data.append(i.getAttribute('name'), i.value);
-            for (i of data.values()) { console.log(i) }
         }
-        result_data.push(data)
-    }
-    fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: JSON.stringify(result_data) })
+        fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: data })
         .then(function (resp) {
-            if (!resp.ok) alert('server error code ' + resp.status);
+            if (!resp.ok) console.error('server error code ' + resp.status);
         })
-        .catch(alert);
+        .catch(console.error);
+    }
+
 }
 
 function delete_card(e) {
