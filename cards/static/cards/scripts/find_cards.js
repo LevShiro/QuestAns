@@ -1,14 +1,14 @@
 var cards_api_url = '/cards/api/find_cards/';
 
-//���������� ��������� ������ ����� ������������� � API �� ���
+//amount of elements that fethced at once to API
 var step = 3;
-//����� ������� ���� ��������
+//shift bottom page edge
 var page_bottom_offset = 200;
 
 var chk_interval;
 var elems = [];
 var fetching = false;
-var fetch_text = '���� ����� ��� ���� ����� ��� �������� �������� ���������� ������ ������ ��� ���������� ���������� ��������';
+var fetch_text = 'this text for starting empty response to fill page';
 var cur_text = '';
 var end_of_data = false;
 
@@ -74,7 +74,7 @@ function make_request(start, end) {
         fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
             .then(function (v) {
                 if (!v.ok) {
-                    //������� �� ������������ ��� �������
+                    //reaction to incorrect status code
                     alert('response error ' + v.status);
                     return '';
                 } else { 
