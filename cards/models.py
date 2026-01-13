@@ -40,7 +40,7 @@ class GalleryCard(models.Model):
 class UserRaiting(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     raiting = models.IntegerField()
-    group = models.OneToOneField(Group_cards,on_delete=models.CASCADE)
+    group = models.ForeignKey(Group_cards,on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.user}_{self.group}"
     
