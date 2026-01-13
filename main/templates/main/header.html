@@ -22,9 +22,16 @@
         
         {% if request.resolver_match.url_name == "home" %}
             <input type="text" id="find_group" value="{{input_value}}" placeholder="Найти группу карт">
+            <span>Сортировка:</span>
+            <select id="sort_find_input">
+                <option value="5">по названию</option>
+                <option value="4">по автору</option>
+                <option value="3">по рейтингу</option>
+            </select>
             <div class="logo_title"><img class="main_logo" src="{% static 'main/images/logo.png' %}" height="40"> QuestAns</div>
         {% else %}
             <a href="{% url 'home' %}" class="link_search_groups">Найти тест</a>
+            
         {% endif %}
     </div>
 </header>

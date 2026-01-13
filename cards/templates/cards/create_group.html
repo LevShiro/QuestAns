@@ -2,17 +2,17 @@
 
 {% block title %}QuestAns | Создание группы {% endblock %}
 
+{% load static %}
+
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block wrap">
-        <form method="post">
-            {% csrf_token %}
-            <input type="text" placeholder="Название группы карт" class="create_group__input-title">
-            
+        <input type="text" placeholder="Название группы карт" class="create_group__input-title">
+        <ul class="create_group__cards_list">
             {% include 'cards/particles/create_card.html' %}
-            {% include 'cards/particles/create_card.html' %}
-            
-            <button id="create_group__add_card", name="public_group">Опубликовать группу карт</button>
-        </form>
+        </ul>
+            <input class="create_group_button_add_card" type="button" value="Добавить карточку" onclick="add_card()">
+            <button id="create_group__add_card">Опубликовать группу карт</button>
     </main>
+    <script src="{% static 'cards/scripts/create_group.js' %}"></script>
 {% endblock %}
