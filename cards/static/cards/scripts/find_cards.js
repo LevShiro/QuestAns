@@ -1,7 +1,3 @@
-
-
-var chk_interval = setTimeout(configure_listeners, 10000);
-
 var cards_api_url = '/cards/api/find_cards/';
 
 //количество элементов оторое будет запрашиваться к API за раз
@@ -9,11 +5,9 @@ var step = 3;
 //сдвиг нижнего края страницы
 var page_bottom_offset = 200;
 
-
+var chk_interval;
 var elems = [];
-
 var fetching = false;
-
 var fetch_text = 'этот текст для того чтобы при загрузке страницы выполнялся пустой запрос для начального заполнения страницы';
 var cur_text = '';
 var end_of_data = false;
@@ -25,29 +19,24 @@ var root;
 configure_listeners();
 
 function configure_listeners(){
-
     input = document.getElementById("find_group");
     root = document.getElementById("groups-list");
-
+    
     if (input == null || root == null){
         chk_interval = setTimeout(configure_listeners, 1000);
         console.log("waiting load");
         return;
     }
-
+    
     clearInterval(chk_interval);
     chk_interval = null;
     input.addEventListener('input', on_text_field_update);
-
+    
     window.addEventListener('scroll', on_scroll);
-
+    
     //console.log("loaded");
-
+    
 }
-
-
-
-
 
 function update() {
     if (cur_text != fetch_text && !fetching) {
@@ -62,11 +51,10 @@ function update() {
     }
 }
 
-
 function reset_elems() {
-
+    
     while (root.children[0] != null) {
-
+        
         try{
             root.removeChild(root.children[0]);
         }
@@ -109,19 +97,16 @@ function make_request(start, end) {
 function reolve_data(data){
     id = 0;
     
-    
-    
-    
     if (data == '') {
         end_of_data = true;
     } else {
-
+        
         root.insertAdjacentHTML('beforeend', data);
-
+        
         let end = elems.length;
         let tec = root.lastElementChild;
         let ok = false;
-
+        
         while (tec != null && tec != elems[end - 1]) {
             elems.splice(end, 0, tec);
             tec = tec.previousElementSibling;
@@ -134,8 +119,6 @@ function reolve_data(data){
     fetching = false;
     update();
 }
-
-
 
 function on_text_field_update() {
     a = input.value;
@@ -152,8 +135,6 @@ function on_scroll() {
         update();
     }
 }
-
-
 
 //console.log("scrpt init")
 update();
