@@ -1,10 +1,8 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.db.models import Q
-from django_ratelimit.decorators import ratelimit
 import urllib.parse
-import json
+#from .forms import CardForm
 
 from .models import *
 # Create your views here. im 
@@ -62,3 +60,10 @@ def user_raiting(request):
             user_raiting.save()
     return HttpResponse(status=200)
 
+
+def create_group(request):
+    
+    if "public_group" in request.POST:
+        print(request.POST.get('public_group',''))
+    
+    return render(request,'cards/create_group.html')
