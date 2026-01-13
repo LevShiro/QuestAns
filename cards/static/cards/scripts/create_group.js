@@ -2,7 +2,7 @@ const root_elem_id = 'root';
 const api_to_send_card = '';
 const class_name_for_field = 'field';
 const nomer_attribute_name = 'nom';
-
+const name_input_id = 'create_group__input-title';
 
 function add_card() {
     
@@ -32,6 +32,12 @@ function add_card() {
 function send_cards() {
     let root = document.getElementById(root_elem_id);
     result_data = [];
+    el = document.getElementById(name_input_id);
+    if (el != null) result_data.push(el.value);
+    else {
+        console.error('element eith id', name_input_id, 'not found');
+        result_data.push('');
+    }
     for (card of root.children) {
         data = new FormData();
         elems = card.getElementsByClassName(class_name_for_field);
@@ -50,7 +56,10 @@ function send_cards() {
         result_data.push(data)
     }
     fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: JSON.stringify(result_data) })
-        .catch(console.error);
+        .then(function (resp) {
+            if (!resp.ok) console.alert('server error code ' + resp.status);
+        })
+        .catch(console.alert);
 }
 
 
