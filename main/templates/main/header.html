@@ -21,7 +21,7 @@
         </div>
         
         {% if request.resolver_match.url_name == "home" %}
-            <input type="text" id="find_group" value="{{input_value}}">
+            <input type="text" id="find_group" value="{{input_value}}" placeholder="Найти группу карт">
             <span>Сортировка:</span>
             <select id="sort_find_input">
                 <option value="5">по названию</option>
