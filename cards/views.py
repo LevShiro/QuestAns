@@ -28,7 +28,22 @@ def find_cards(request):
     if request.method == "GET":
         query=request.headers['group-name']
         query = urllib.parse.unquote(query)
-    groups = Group_cards.objects.filter(Q(title__contains=query))[int(request.headers['start']):int(request.headers['end'])]
+        format_sort = request.headers['sort']
+        if format_sort == "6":
+            groups = Group_cards.objects.filter(Q(title__contains=query)).all()
+            groups = sorted(groups, key=lambda group: group.quantity_raits(),reverse=True)[int(request.headers['start']):int(request.headers['end'])]
+        elif format_sort=="5":
+           format_sort = '-title'
+           groups = Group_cards.objects.filter(Q(title__contains=query)).order_by(format_sort)[int(request.headers['start']):int(request.headers['end'])]
+        elif format_sort=="4":
+            format_sort='-author'
+            groups = Group_cards.objects.filter(Q(title__contains=query)).order_by(format_sort)[int(request.headers['start']):int(request.headers['end'])]
+        elif format_sort=="3":
+            groups = Group_cards.objects.filter(Q(title__contains=query)).all()
+            groups = sorted(groups, key=lambda group: group.group_raiting(),reverse=True)[int(request.headers['start']):int(request.headers['end'])]
+        else:
+              groups = Group_cards.objects.filter(Q(title__contains=query)).order_by('title')[int(request.headers['start']):int(request.headers['end'])]
+    
       
     data = {
         'groups':groups,
@@ -64,5 +79,7 @@ def user_raiting(request):
 
 
 def create_group(request):
+    
+    print(request.POST)
     
     return render(request,'cards/create_group.html')
