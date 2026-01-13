@@ -57,7 +57,7 @@ def user_raiting(request):
     else:
         if raiting>5 or raiting<0:
             return HttpResponse(status=200)
-        else:
+        elif rait_in_db.exists() == False and (raiting<=5 and raiting>0):
             user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
             user_raiting.save()
     return HttpResponse(status=200)
