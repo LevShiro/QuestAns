@@ -156,3 +156,23 @@
         width: 350px;
     }
 }
+
+.navigation_cards {
+    text-align: center;
+    border: 2px solid black;
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: rgb(185, 183, 183);
+    margin-left: 16px;
+    margin: 15px;
+}
+
+.question-block {
+    border: 2px solid black;
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    margin-left: 16px;
+    margin: 15px;
+}
