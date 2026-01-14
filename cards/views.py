@@ -79,7 +79,23 @@ def user_raiting(request):
 
 
 def create_group(request):
+    if request.method =="POST":
+        title = request.POST.get('group_name')
+        input_question = request.POST.get('input_question')
+        input_answer = request.POST.get('input_answer')
+        print(title,input_question,input_answer)
+        if Group_cards.objects.filter(title=title,author = request.user).exists() == False:
+            group = Group_cards.objects.create(title=title,author = request.user)
+            group.save()
+            
+        else:
+            group = Group_cards.objects.get(title=title,author = request.user)
+        Card.objects.create(question=input_question,answer = input_answer,in_group = group).save()
+
+    return redirect("group",group.id)
+
+
     
-    print(request.POST)
     
-    return render(request,'cards/create_group.html')
+    
+
