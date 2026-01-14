@@ -2,6 +2,8 @@
 
 {% block title %}QuestAns | {{group.title}}{% endblock %}
 
+{% load static %}
+
 {% block content %}
 {% include 'main/header.html' %}
 <main class="main-block main-block__go_test wrap">
@@ -11,6 +13,7 @@
             <button onclick="on_chose_another_card(`{{forloop.counter}}`,`{{group.id}}`)">{{forloop.counter}}</button>
         {% endfor %}
     </aside>
-    
+    <div class="question-block" id="question-block">
+    </div>
 </main>
 {% endblock %}
