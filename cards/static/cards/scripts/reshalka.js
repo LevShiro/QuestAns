@@ -18,7 +18,8 @@ function update() {
 
 }
 
-function send_ansver() {
+function send_ansver(grp_id) {
+    if (grp_id != null) group_id = grp_id;
     el = document.getElementById(ansver_id_name);
     if (el == null) {
         console.error('no anser element found with id', ansver_id_name)
