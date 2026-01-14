@@ -1,5 +1,8 @@
+
 from django import forms
 from .models import Card
+
+
 
 class CardForm(forms.ModelForm):
     question = forms.CharField(widget=forms.TextInput(attrs={
@@ -13,3 +16,4 @@ class CardForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = ["question","answer"]
+
