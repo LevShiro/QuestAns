@@ -4,7 +4,7 @@ from django.db.models import Q
 import urllib.parse
 from .forms import CardForm
 from django.forms import formset_factory
-
+import threading
 
 from .models import *
 # Create your views here. im 
@@ -77,9 +77,28 @@ def user_raiting(request):
             user_raiting.save()
     return HttpResponse(status=200)
 
-
+log_mutex = threading.Lock()
 def create_group(request):
+    log_mutex.acquire()
+    if request.method =="POST":
+        title = request.POST.get('group_name')
+        input_question = request.POST.get('input_question')
+        input_answer = request.POST.get('input_answer')
+        print(title,input_question,input_answer)
+        if Group_cards.objects.filter(title=title).exists() == False:
+            group = Group_cards.objects.create(title=title,author = request.user)
+            print(group,'группа создана')
+        else:
+            group = Group_cards.objects.get(title=title,author = request.user)
+            print(group,'группа найдена')
+        Card.objects.create(question=input_question,answer = input_answer,in_group = group)
+        log_mutex.release()
+        return redirect("group",group.id)
+    log_mutex.release()
+    return render(request, 'cards/create_group.html')
+
+
     
-    print(request.POST)
     
-    return render(request,'cards/create_group.html')
+    
+
