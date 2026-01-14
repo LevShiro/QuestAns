@@ -1,13 +1,13 @@
 const api_to_get_group = '';
 const api_to_send_ansver = '';
-const buttons_id_name = 'buttons';
 const ansver_id_name = 'ansver';
 const root_id_name = 'root'
 
 var root;
-var cur_card;
+var cur_card = '1';
 var fetch_card;
 var fetching = false;
+var group_id = '';
 
 function update() {
     if (cur_card != fetch_card && !fetching) {
@@ -26,7 +26,7 @@ function send_ansver() {
     }
     ansver = el.value;
 
-    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'card_id': cur_card}, body: ansver })
+    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'card_id': cur_card, 'group_id': group_id}, body: ansver })
         .then(function (resp) {
             if (!resp.ok) alert('server error code ' + resp.status);
         })
@@ -38,7 +38,7 @@ function make_request() {
     fetching = true;
     fetch_card = cur_card;
     try {
-        fetch(cards_api_url, { headers: { 'card_id': fetch_card} })
+        fetch(cards_api_url, { headers: { 'card_id': fetch_card, 'group_id': group_id} })
             .then(function (v) {
                 if (!v.ok) {
                     //reaction to incorrect status code
@@ -79,24 +79,12 @@ function reset_element() {
     
 }
 
-function on_chose_another_card(id) {
+function on_chose_another_card(nom, grp_id) {
     cur_card = id;
+    group_id = grp_id;
     update();
 }
 
-function add_listeners() {
-    r = document.getElementById(buttons_id_name);
-    if (r == null) {
-        console.log('no tests');
-        return;
-    }
-    for (i of r.children) {
-        (function (el) {
-            i.add_listeners('click', function () { on_chose_another_card(el.innerText)})
-        })(i)
-    }
 
-}
-
-add_listeners();
+make_request();
 root = document.getElementById(root_id_name);
