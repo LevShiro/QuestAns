@@ -1,7 +1,7 @@
-const api_to_get_group = '';
-const api_to_send_ansver = '';
+const api_to_get_group = '/cards/api/get_quest';
+const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
-const root_id_name = 'root'
+const root_id_name = 'question-block'
 
 var root;
 var cur_card = '1';
@@ -27,7 +27,7 @@ function send_ansver(grp_id) {
     }
     ansver = el.value;
 
-    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'card_id': cur_card, 'group_id': group_id}, body: ansver })
+    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'card-id': cur_card, 'group-id': group_id}, body: ansver })
         .then(function (resp) {
             if (!resp.ok) alert('server error code ' + resp.status);
         })
@@ -39,7 +39,7 @@ function make_request() {
     fetching = true;
     fetch_card = cur_card;
     try {
-        fetch(cards_api_url, { headers: { 'card_id': fetch_card, 'group_id': group_id} })
+        fetch(api_to_get_group, { headers: { 'card-id': fetch_card, 'group-id': group_id} })
             .then(function (v) {
                 if (!v.ok) {
                     //reaction to incorrect status code
@@ -47,8 +47,8 @@ function make_request() {
                     return '';
                 } else {
                     return v.text();
-                })
-            .then(reolve_data)
+                }})
+            .then(resolve_data)
             .catch(function (e) {
                 console.error(e);
                 fetching = false;
@@ -81,11 +81,11 @@ function reset_element() {
 }
 
 function on_chose_another_card(nom, grp_id) {
-    cur_card = id;
+    cur_card = nom;
     group_id = grp_id;
     update();
 }
 
 
-make_request();
+
 root = document.getElementById(root_id_name);

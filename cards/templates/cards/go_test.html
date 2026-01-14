@@ -2,15 +2,18 @@
 
 {% block title %}QuestAns | {{group.title}}{% endblock %}
 
+{% load static %}
+
 {% block content %}
 {% include 'main/header.html' %}
 <main class="main-block main-block__go_test wrap">
     <h4>Вы решаете тест "{{group.title}}"</h4>
     <aside class="navigation_cards">
         {% for card in cards %}
-            <button>{{forloop.counter}}</button>
+            <button onclick="on_chose_another_card(`{{forloop.counter}}`,`{{group.id}}`)">{{forloop.counter}}</button>
         {% endfor %}
     </aside>
-    {% include 'cards/particles/test_place.html' %}
+    <div class="question-block" id="question-block">
+    </div>
 </main>
 {% endblock %}

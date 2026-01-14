@@ -59,8 +59,28 @@ def go_test(request,group_id):
     }
     return render(request,"cards/go_test.html",context)
 
+def get_quest(request):
+    if request.method == "GET":
+        print(request.GET)
+        group_id = request.headers['group-id']
+        card_id = request.headers['card-id']
+        
+        group = Group_cards.objects.get(id=group_id)
+        card = Card.objects.get(in_group=group,id=card_id)
+        
+        data = {'card':card}
+        return render(request,'cards/particles/test_place.html',data)
+    
+def send_quest(request):
+    if request.method == "POST":
+        answer = request.body
+        group_id = request.POST.get('group-id')
+        card_id = request.POST.get('card-id')
+        
+        print(answer)
+        return HttpResponse(status=200)
 def user_raiting(request):
-    print(123)
+    
     group_id = request.headers['group-id']
     group =  Group_cards.objects.get(id = group_id)
     raiting = int(request.headers['mark'])
