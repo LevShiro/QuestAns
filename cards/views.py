@@ -59,6 +59,12 @@ def go_test(request,group_id):
     }
     return render(request,"cards/go_test.html",context)
 
+def get_quest(request):
+    if request.method == "GET":
+       pass 
+    pass
+def send_quest(request):
+    pass
 def user_raiting(request):
     print(123)
     group_id = request.headers['group-id']

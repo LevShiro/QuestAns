@@ -46,7 +46,7 @@ function make_request() {
                     return '';
                 } else {
                     return v.text();
-                })
+                }})
             .then(reolve_data)
             .catch(function (e) {
                 console.error(e);
@@ -91,9 +91,9 @@ function add_listeners() {
         return;
     }
     for (i of r.children) {
-        function (el) {
+        (function (el) {
             i.add_listeners('click', function () { on_chose_another_card(el.innerText)})
-        }(i)
+        })(i)
     }
 
 }
