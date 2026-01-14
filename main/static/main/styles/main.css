@@ -219,6 +219,11 @@ body {
     margin-right: 10px;
 }
 
+.group-item__avatar-user{
+    width: 200px;
+    height: auto;
+}
+
 @media (max-width: 480px) {
     .wrap {
         padding: 0 12px;
@@ -288,6 +293,11 @@ body {
     .main_logo {
         margin-right: 8px;
         width: 28px;
+        height: auto;
+    }
+
+    .group-item__avatar-user {
+        width: 50px;
         height: auto;
     }
 }

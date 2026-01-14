@@ -98,7 +98,6 @@
     min-height: 44px;
     line-height: 1;
     text-align: center;
-    transition: background 0.2s ease;
 }
 
 #raiting__input{
@@ -106,30 +105,54 @@
     height: 30px;
     text-align: center;
     font-size: 15px;
-    text-align: center;
 }
 
 #group__raiting__button:hover {
     background: #45a049;
 }
 
-/* === Кнопка "Отменить отметку" — тоже исправленный ID === */
-#group__raiting__button_cancel_rate {
-    padding: 12px 20px;
-    font-size: 20px;
-    background: #9E9E9E;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    min-height: 44px;
-    line-height: 1;
-    text-align: center;
-    transition: background 0.2s ease;
+
+@media (max-width: 480px) {
+   .card-item {
+        width: 300px;
+    }
+    .img {
+        width: 200px;
+    }
 }
 
-#group__raiting__button_cancel_rate:hover {
-    background: #757575;
+/* Создание карточек */
+.create_card-block {
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+.create_group__input-title {
+    width: 700px;
+    margin: 0 auto;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.profileApp__profile_inf {
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+@media (max-width: 480px) {
+   .create_group__input-title {
+        width: 300px;
+    }
+    .profileApp__profile_inf {
+        width: 350px;
+    }
 }

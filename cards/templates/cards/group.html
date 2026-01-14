@@ -6,7 +6,7 @@
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block main-block__group wrap">
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <h4 class="group-title">{{group.title}}</h4>
         <ul class="card-list">
             {% for card in cards %}
@@ -14,7 +14,7 @@
                 {% if card.gallery %}
                     {{card.gallery.first.url}}
                     {% for photo in card.gallery %}
-                        <img src="{{photo.photo.url}}" alt="">
+                        <img class="img" src="{{photo.photo.url}}" alt="">
                     {% endfor %}
                 {% endif %}
                 <p class="card-item__question">Вопрос: {{card.card_object.question}}</p>
