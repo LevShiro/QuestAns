@@ -6,16 +6,15 @@
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block main-block__group wrap">
-        
-        {{group.title}}
-        <a href="{% url 'home'%}">На главную</a>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <h4 class="group-title">{{group.title}}</h4>
         <ul class="card-list">
             {% for card in cards %}
             <li class="card-item"> 
                 {% if card.gallery %}
                     {{card.gallery.first.url}}
                     {% for photo in card.gallery %}
-                        <img src="{{photo.photo.url}}" alt="">
+                        <img class="img" src="{{photo.photo.url}}" alt="">
                     {% endfor %}
                 {% endif %}
                 <p class="card-item__question">Вопрос: {{card.card_object.question}}</p>
@@ -23,9 +22,11 @@
             </li> 
             {% endfor %}
         </ul>
-        <a href="{% url 'go_test' group_id=group.id %}">Решать тест</a>
+        <div class="actions-row">
+        <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
         {% include 'cards/particles/raiting_group.html' %}
+    </div>
     </main>
-    <script src="{% static 'cards/scripts/cookie.js'%}"></script>
+    
     <script src="{% static 'cards/scripts/group_raiting.js'%}"></script>
 {% endblock %}

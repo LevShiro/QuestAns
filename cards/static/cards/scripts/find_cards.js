@@ -1,56 +1,49 @@
-
-
-var chk_interval = setTimeout(configure_listeners, 10000);
-
 var cards_api_url = '/cards/api/find_cards/';
 
-//количество элементов оторое будет запрашиваться к API за раз
+//amount of elements that fethced at once to API
 var step = 3;
-//сдвиг нижнего края страницы
+//shift bottom page edge
 var page_bottom_offset = 200;
 
-
+var chk_interval;
 var elems = [];
-
 var fetching = false;
-
-var fetch_text = 'этот текст для того чтобы при загрузке страницы выполнялся пустой запрос для начального заполнения страницы';
+var fetch_text = 'this text for starting empty response to fill page';
 var cur_text = '';
 var end_of_data = false;
-
+var selected_fetch = '';
+var cur_selected = '';
 
 var input;
 var root;
+var selector;
 
 configure_listeners();
 
 function configure_listeners(){
-
     input = document.getElementById("find_group");
     root = document.getElementById("groups-list");
-
-    if (input == null || root == null){
+    selector = document.getElementById("sort_find_input");
+    
+    if (input == null || root == null || selector == null){
         chk_interval = setTimeout(configure_listeners, 1000);
         console.log("waiting load");
         return;
     }
-
+    
     clearInterval(chk_interval);
     chk_interval = null;
+    cur_selected = selector.value;
     input.addEventListener('input', on_text_field_update);
-
+    selector.addEventListener('change', on_selector_change);
     window.addEventListener('scroll', on_scroll);
-
+    
     //console.log("loaded");
-
+    update();
 }
 
-
-
-
-
 function update() {
-    if (cur_text != fetch_text && !fetching) {
+    if ((cur_text != fetch_text || cur_selected != selected_fetch) && !fetching) {
         reset_elems();
         make_request(0, step);
         return;
@@ -62,11 +55,10 @@ function update() {
     }
 }
 
-
 function reset_elems() {
-
+    
     while (root.children[0] != null) {
-
+        
         try{
             root.removeChild(root.children[0]);
         }
@@ -82,11 +74,12 @@ function reset_elems() {
 function make_request(start, end) {
     fetching = true;
     fetch_text = cur_text;
+    selected_fetch = cur_selected;
     try {
-        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end } })
+        fetch(cards_api_url, { headers: { "group-name": encodeURIComponent(fetch_text), "start": start, "end": end, "sort": selected_fetch } })
             .then(function (v) {
                 if (!v.ok) {
-                    //реакция на неправильный код статуса
+                    //reaction to incorrect status code
                     alert('response error ' + v.status);
                     return '';
                 } else { 
@@ -109,19 +102,16 @@ function make_request(start, end) {
 function reolve_data(data){
     id = 0;
     
-    
-    
-    
     if (data == '') {
         end_of_data = true;
     } else {
-
+        
         root.insertAdjacentHTML('beforeend', data);
-
+        
         let end = elems.length;
         let tec = root.lastElementChild;
         let ok = false;
-
+        
         while (tec != null && tec != elems[end - 1]) {
             elems.splice(end, 0, tec);
             tec = tec.previousElementSibling;
@@ -134,8 +124,6 @@ function reolve_data(data){
     fetching = false;
     update();
 }
-
-
 
 function on_text_field_update() {
     a = input.value;
@@ -153,7 +141,8 @@ function on_scroll() {
     }
 }
 
+function on_selector_change() {
+    cur_selected = selector.value;
+    update();
+}
 
-
-//console.log("scrpt init")
-update();
