@@ -1,11 +1,11 @@
-const rating_api_url = 'api/raiting_group/'
+export const rating_api_url = 'api/raiting_group/'
 const selector_id = "raiting__input"
 //элемент который надо обновлять
 const update_element_id = 'group__raiting'
 var timer_id;
 
 //функция для обновления элемента без перезагрузки страницы
-async function update_element() {
+export async function update_element() {
     let resp = await fetch(document.URL);
     
     if (!resp.ok) {
@@ -34,7 +34,7 @@ async function update_element() {
     
 }
 
-function send_data(dat) {
+export function send_data(dat) {
     try {
         fetch(rating_api_url, { method: "POST", headers: { ...dat, 'X-CSRFToken': Cookies.get('csrftoken') } })
             .then(function (v) {

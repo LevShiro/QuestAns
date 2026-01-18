@@ -55,7 +55,7 @@ function update() {
     }
 }
 
-function reset_elems() {
+export function reset_elems() {
     
     while (root.children[0] != null) {
         
@@ -71,7 +71,7 @@ function reset_elems() {
     
 }
 
-function make_request(start, end) {
+export function make_request(start, end) {
     fetching = true;
     fetch_text = cur_text;
     selected_fetch = cur_selected;
@@ -99,7 +99,7 @@ function make_request(start, end) {
     }
 }
 
-function reolve_data(data){
+export function reolve_data(data){
     id = 0;
     
     if (data == '') {
