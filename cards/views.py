@@ -5,6 +5,7 @@ import urllib.parse
 from .forms import CardForm
 from django.forms import formset_factory
 import threading
+import json
 
 from .models import *
 # Create your views here. im 
@@ -68,17 +69,36 @@ def get_quest(request):
         group = Group_cards.objects.get(id=group_id)
         card = Card.objects.get(in_group=group,id=card_id)
         
-        data = {'card':card}
+        data = {
+            'group':group,
+            'card':card
+        }
         return render(request,'cards/particles/test_place.html',data)
     
 def send_quest(request):
     if request.method == "POST":
-        answer = request.body
-        group_id = request.POST.get('group-id')
-        card_id = request.POST.get('card-id')
         
-        print(answer)
-        return HttpResponse(status=200)
+        answers = request.body
+        group_id = request.headers['group_id']
+        group = Group_cards.objects.get(id=group_id)
+        
+        answer = json.loads(answers.decode('utf-8')) 
+        
+        results=[]
+        
+        cards = Card.objects.filter(in_group=group)
+        for i in range(cards.count()):
+            if str(i) not in answer:
+                 results.append([cards[i].answer,"",False])
+                 continue
+            if cards[i].answer == answer[str(i)]:
+                results.append([cards[i].answer,answer[str(i)],True])
+            else:
+                results.append([cards[i].answer,answer[str(i)],False])
+            print(results)
+        data = {'results':results}
+        return render(request,'cards/result.html',data)
+
 def user_raiting(request):
     
     group_id = request.headers['group-id']
@@ -116,6 +136,10 @@ def create_group(request):
         return redirect("group",group.id)
     log_mutex.release()
     return render(request, 'cards/create_group.html')
+
+def result(request):
+    
+    return render(request,'cards/result.html')
 
 
     
