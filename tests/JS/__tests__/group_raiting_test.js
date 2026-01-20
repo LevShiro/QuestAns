@@ -11,4 +11,17 @@ describe('test for defined', () => {
     })
 })
 
+describe('update data', () => {
+    test('error response', async () => {
+        let url = 'test url'
+        global.fetch = jest.fn(async function () { return { ok: false, status: 500 } })
+        global.console.error = jest.fn(() => { })
+
+        await update_element();
+
+        expect(global.fetch.mock.calls[0][0]).toContain(global.document.URL);
+        expect(global.console.error.mock.calls[0][0]).toContain("500")
+        
+    })
+})
 

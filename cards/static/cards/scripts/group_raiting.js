@@ -5,7 +5,7 @@ const update_element_id = 'group__raiting'
 var timer_id;
 
 //функция для обновления элемента без перезагрузки страницы
-export async function update_element() {
+async function update_element() {
     let resp = await fetch(document.URL);
     
     if (!resp.ok) {
@@ -34,7 +34,7 @@ export async function update_element() {
     
 }
 
-export function send_data(dat) {
+function send_data(dat) {
     try {
         fetch(rating_api_url, { method: "POST", headers: { ...dat, 'X-CSRFToken': Cookies.get('csrftoken') } })
             .then(function (v) {
@@ -67,4 +67,9 @@ function set_mark(group_id) {
 
 function delete_mark(group_id) {
     send_data({ "group-id": group_id, "mark": 0 })
+}
+
+if (typeof module != "undefined") {
+    module.exports.update_element = update_element;
+    module.exports.send_data = send_data;
 }
