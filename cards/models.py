@@ -47,3 +47,6 @@ class UserRaiting(models.Model):
     def __str__(self):
         return f"{self.user}_{self.group}"
     
+""" class SaveLinkGroup(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    group() """
