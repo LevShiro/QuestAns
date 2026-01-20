@@ -87,17 +87,16 @@ def send_quest(request):
         answer = json.loads(answers.decode('utf-8')) 
         
         results=[]
-        
+        print(answers)
         cards = Card.objects.filter(in_group=group)
         for i in range(cards.count()):
-            if str(i) not in answer:
-                 results.append([cards[i].answer,"",False])
-                 continue
-            if cards[i].answer == answer[str(i)]:
-                results.append([cards[i].answer,answer[str(i)],True])
+            if not (str(i+1) in answer):
+                results.append([cards[i].question,cards[i].answer,"","Неправильно"])
+            elif cards[i].answer == answer[str(i+1)]:
+                results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Правильно"])
             else:
-                results.append([cards[i].answer,answer[str(i)],False])
-            print(results)
+                results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Неправильно"])
+        print(results)
         data = {'results':results}
         return render(request,'cards/result.html',data)
 
@@ -118,6 +117,7 @@ def user_raiting(request):
             user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
             user_raiting.save()
     return HttpResponse(status=200)
+
 
 log_mutex = threading.Lock()
 def create_group(request):

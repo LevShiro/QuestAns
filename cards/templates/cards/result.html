@@ -6,11 +6,25 @@
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block main-block__group wrap">
-    <span>{% for result in results %}
-            Правильный ответ Твой ответ Правильно/Неправильно
-            
-        {% endfor %}
-    </span>
+    <div id="table-result">
+        <table>
+            <tr>
+                <td>Вопрос</td>
+                <td>Твой ответ</td>
+                <td>Правильный ответ</td>
+                <td>Правильно/Неправильно</td>
+            </tr>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.0 }}</td>
+                    <td class="td_center"><input type="text" value="{{ result.2 }}" readonly="readonly"></td>
+                    <td class="td_center">{{ result.1 }}</td>
+                    <td class="td_center">{{ result.3 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+    </div>
     </main>
 
 {% endblock %}
