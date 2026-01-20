@@ -1,14 +1,15 @@
 const api_to_get_group = '/cards/api/get_quest';
 const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
-const root_id_name = 'question-block'
+const root_id_name = 'question-block';
+const attrib_name_with_group_id = 'zachet'
 
 var root;
 var cur_card = '1';
 var fetch_card;
 var fetching = false;
 var group_id = '';
-
+var ansvers = {};
 function update() {
     if (cur_card != fetch_card && !fetching) {
         send_ansver();
@@ -22,16 +23,14 @@ function send_ansver(grp_id) {
     if (grp_id != null) group_id = grp_id;
     el = document.getElementById(ansver_id_name);
     if (el == null) {
-        console.error('no anser element found with id', ansver_id_name)
+        console.error('no ansver element found with id', ansver_id_name)
         return;
     }
     ansver = el.value;
+    ansvers[fetch_card] = ansver;
 
-    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'card-id': cur_card, 'group-id': group_id}, body: ansver })
-        .then(function (resp) {
-            if (!resp.ok) alert('server error code ' + resp.status);
-        })
-        .catch(function (e) { alert('error while sending ansver: ' + e) });
+
+
 
 }
 
@@ -62,6 +61,10 @@ function make_request() {
 function resolve_data(data) {
 
     root.insertAdjacentHTML('beforeend', data);
+    let el = document.getElementById(ansver_id_name);
+    if (el != null && ansvers[fetch_card] != null) {
+        el.value = ansvers[fetch_card];
+    }
     fetching = false;
     update();
 }
@@ -86,6 +89,28 @@ function on_chose_another_card(nom, grp_id) {
     update();
 }
 
+function send_answers(grp_id) {
+    send_ansver();
+    if (grp_id != null) group_id = grp_id;
+    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id }, body: JSON.stringify(ansvers) })
+        .then(function (resp) {
+            if (!resp.ok) {alert('server error code ' + resp.status); return; }
+            console.log(resp.body.values())
+            return resp.text();
+        })
+        .then(function (v){document.documentElement.innerHTML  = v})
+        .catch(function (e) { alert('error while sending ansver: ' + e) });
+
+
+}
 
 
 root = document.getElementById(root_id_name);
+let el = root.getAttribute(attrib_name_with_group_id)
+if (el != null) {
+    group_id = el;
+    make_request(), attrib_name_with_group_id
+} else {
+    console.log('attribute', attrib_name_with_group_id, 'not jound')
+
+}
