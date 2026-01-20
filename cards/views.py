@@ -67,7 +67,9 @@ def get_quest(request):
         card_id = request.headers['card-id']
         
         group = Group_cards.objects.get(id=group_id)
-        card = Card.objects.get(in_group=group,id=card_id)
+        
+        cards = Card.objects.filter(in_group=group)
+        card = cards[int(card_id)-1]
         
         data = {
             'group':group,

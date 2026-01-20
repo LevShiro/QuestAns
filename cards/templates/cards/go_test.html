@@ -13,8 +13,7 @@
             <button onclick="on_chose_another_card(`{{forloop.counter}}`,`{{group.id}}`)">{{forloop.counter}}</button>
         {% endfor %}
     </aside>
-    <div class="question-block" id="question-block" zachet="{{group.id}}">
-    </div>
+    <div class="question-block" id="question-block" zachet="{{group.id}}"></div>
     <script src="{% static 'cards/scripts/reshalka.js' %}"></script>
 </main>
 {% endblock %}
