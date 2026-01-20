@@ -95,7 +95,6 @@ function send_answers(grp_id) {
     fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id }, body: JSON.stringify(ansvers) })
         .then(function (resp) {
             if (!resp.ok) {alert('server error code ' + resp.status); return; }
-            console.log(resp.body.values())
             return resp.text();
         })
         .then(function (v){document.documentElement.innerHTML  = v})
