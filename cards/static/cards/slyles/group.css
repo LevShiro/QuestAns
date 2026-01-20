@@ -1,0 +1,178 @@
+/* === Основные стили для контента карточек === */
+.main-block {
+    padding: 2rem 0;
+    min-height: calc(100vh - 80px);
+    background: #FBE4D8;
+}
+
+.group-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 24px 0;
+    padding: 16px 24px;
+    background: #fff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card-item {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.card-item__question {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+}
+
+.card-item__answer {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* === Стили для галереи (картинки) === */
+.card-item__gallery {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.card-item__gallery img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+/* === Кнопка "Решать тест" — увеличиваем, красим зелёным === */
+.go-test-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    min-height: 44px;
+    line-height: 1;
+    text-align: center;
+}
+
+.go-test-btn:hover {
+    background: #45a049;
+}
+
+/* === Кнопка "Оценить" — исправленный ID === */
+#group__raiting__button {
+    padding: 12px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    min-height: 44px;
+    line-height: 1;
+    text-align: center;
+}
+
+#raiting__input{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 15px;
+}
+
+#group__raiting__button:hover {
+    background: #45a049;
+}
+
+
+@media (max-width: 480px) {
+   .card-item {
+        width: 300px;
+    }
+    .img {
+        width: 200px;
+    }
+}
+
+/* Создание карточек */
+.create_card-block {
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+.create_group__input-title {
+    width: 700px;
+    margin: 0 auto;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.profileApp__profile_inf {
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+@media (max-width: 480px) {
+   .create_group__input-title {
+        width: 300px;
+    }
+    .profileApp__profile_inf {
+        width: 350px;
+    }
+}
+
+.navigation_cards {
+    text-align: center;
+    border: 2px solid black;
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: rgb(185, 183, 183);
+    margin-left: 16px;
+    margin: 15px;
+}
+
+.question-block {
+    border: 2px solid black;
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    margin-left: 16px;
+    margin: 15px;
+}

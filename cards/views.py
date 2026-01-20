@@ -4,7 +4,8 @@ from django.db.models import Q
 import urllib.parse
 from .forms import CardForm
 from django.forms import formset_factory
-
+import threading
+import json
 
 from .models import *
 # Create your views here. im 
@@ -59,8 +60,47 @@ def go_test(request,group_id):
     }
     return render(request,"cards/go_test.html",context)
 
+def get_quest(request):
+    if request.method == "GET":
+        print(request.GET)
+        group_id = request.headers['group-id']
+        card_id = request.headers['card-id']
+        
+        group = Group_cards.objects.get(id=group_id)
+        card = Card.objects.get(in_group=group,id=card_id)
+        
+        data = {
+            'group':group,
+            'card':card
+        }
+        return render(request,'cards/particles/test_place.html',data)
+    
+def send_quest(request):
+    if request.method == "POST":
+        
+        answers = request.body
+        group_id = request.headers['group_id']
+        group = Group_cards.objects.get(id=group_id)
+        
+        answer = json.loads(answers.decode('utf-8')) 
+        
+        results=[]
+        
+        cards = Card.objects.filter(in_group=group)
+        for i in range(cards.count()):
+            if str(i) not in answer:
+                 results.append([cards[i].answer,"",False])
+                 continue
+            if cards[i].answer == answer[str(i)]:
+                results.append([cards[i].answer,answer[str(i)],True])
+            else:
+                results.append([cards[i].answer,answer[str(i)],False])
+            print(results)
+        data = {'results':results}
+        return render(request,'cards/result.html',data)
+
 def user_raiting(request):
-    print(123)
+    
     group_id = request.headers['group-id']
     group =  Group_cards.objects.get(id = group_id)
     raiting = int(request.headers['mark'])
@@ -77,9 +117,32 @@ def user_raiting(request):
             user_raiting.save()
     return HttpResponse(status=200)
 
-
+log_mutex = threading.Lock()
 def create_group(request):
+    log_mutex.acquire()
+    if request.method =="POST":
+        title = request.POST.get('group_name')
+        input_question = request.POST.get('input_question')
+        input_answer = request.POST.get('input_answer')
+        print(title,input_question,input_answer)
+        if Group_cards.objects.filter(title=title).exists() == False:
+            group = Group_cards.objects.create(title=title,author = request.user)
+            print(group,'группа создана')
+        else:
+            group = Group_cards.objects.get(title=title,author = request.user)
+            print(group,'группа найдена')
+        Card.objects.create(question=input_question,answer = input_answer,in_group = group)
+        log_mutex.release()
+        return redirect("group",group.id)
+    log_mutex.release()
+    return render(request, 'cards/create_group.html')
+
+def result(request):
     
-    print(request.POST)
+    return render(request,'cards/result.html')
+
+
     
-    return render(request,'cards/create_group.html')
+    
+    
+
