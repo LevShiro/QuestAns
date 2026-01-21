@@ -13,7 +13,6 @@ describe('test for defined', () => {
 
 describe('update data', () => {
     test('error response', async () => {
-        let url = 'test url'
         global.fetch = jest.fn(async function () { return { ok: false, status: 500 } })
         global.console.error = jest.fn(() => { })
 
@@ -23,5 +22,19 @@ describe('update data', () => {
         expect(global.console.error.mock.calls[0][0]).toContain("500")
         
     })
+    test('normal response', () => {
+        let test_text = `<div id="${update_element_id}">this is a test text<\div>`
+        
+        global.fetch = jest.fn(async function () { return { ok: true, status: 200, text: async () => {return test_text}} })
+        global.console.error = jest.fn(() => { })
+        let replace_text_function = jest.fn(function () { })
+        global.document.getElementById = jest.fn(() => { return { replaceWith: replace_text_function} })
+        
+        
+        expect(replace_text_function.mock.calls[0][0]).toContain(test_text);
+
+    })
+
+
 })
 
