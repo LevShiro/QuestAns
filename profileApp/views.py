@@ -11,6 +11,7 @@ def profile(request):
     my_groups = Group_cards.objects.filter(author = request.user)
     save_group = SaveLinkGroup.objects.filter(user=request.user)
     
+    
     if 'photo_edit_button' in request.POST:
            form_avatar = EditProfileImageForm(request.POST,request.FILES,instance=request.user)
            if form_avatar.is_valid() and len(list(request.FILES))!=0:
@@ -28,7 +29,7 @@ def profile(request):
         'form': form_avatar,
         'my_groups':my_groups,
         'user':request.user,
-        'save_group':save_group
+        'save_groups':save_group
     }
     return render(request,'profileApp/profile.html',context)
 

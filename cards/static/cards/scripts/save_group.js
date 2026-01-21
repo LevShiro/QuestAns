@@ -1,4 +1,4 @@
-api_url_for_save_group = 'cards/api/save_group'
+api_url_for_save_group = '/cards/api/save_group'
 
 
 function save_group(group_id) {
