@@ -72,4 +72,5 @@ function delete_mark(group_id) {
 if (typeof module != "undefined") {
     module.exports.update_element = update_element;
     module.exports.send_data = send_data;
+    module.exports.update_element_id = update_element_id;
 }
