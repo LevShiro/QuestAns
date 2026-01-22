@@ -62,12 +62,14 @@ def go_test(request,group_id):
 
 def get_quest(request):
     if request.method == "GET":
-        print(request.GET)
+        
         group_id = request.headers['group-id']
         card_id = request.headers['card-id']
         
         group = Group_cards.objects.get(id=group_id)
-        card = Card.objects.get(in_group=group,id=card_id)
+        
+        cards = Card.objects.filter(in_group=group)
+        card = cards[int(card_id)-1]
         
         data = {
             'group':group,
@@ -88,15 +90,17 @@ def send_quest(request):
         
         cards = Card.objects.filter(in_group=group)
         for i in range(cards.count()):
-            if str(i) not in answer:
-                 results.append([cards[i].answer,"",False])
-                 continue
-            if cards[i].answer == answer[str(i)]:
-                results.append([cards[i].answer,answer[str(i)],True])
+            if not (str(i+1) in answer):
+                results.append([cards[i].question,cards[i].answer,"","Неправильно"])
+            elif cards[i].answer.lower() == answer[str(i+1)].lower():
+                results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Правильно"])
             else:
-                results.append([cards[i].answer,answer[str(i)],False])
-            print(results)
-        data = {'results':results}
+                results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Неправильно"])
+        print(results)
+        data = {
+            'results':results,
+            'group_id':group_id,
+        }
         return render(request,'cards/result.html',data)
 
 def user_raiting(request):
@@ -108,7 +112,6 @@ def user_raiting(request):
     print(rait_in_db)
     if rait_in_db.exists() and raiting==0:
         rait_in_db[0].delete()
-        print(f'{group} удалена')
     else:
         if raiting>5 or raiting<0:
             return HttpResponse(status=200)
@@ -116,6 +119,7 @@ def user_raiting(request):
             user_raiting = UserRaiting.objects.create(user = request.user,raiting = raiting,group = group)
             user_raiting.save()
     return HttpResponse(status=200)
+
 
 log_mutex = threading.Lock()
 def create_group(request):
@@ -137,9 +141,9 @@ def create_group(request):
     log_mutex.release()
     return render(request, 'cards/create_group.html')
 
-def result(request):
+def save_group(request):
     
-    return render(request,'cards/result.html')
+    return HttpResponse(status=200)
 
 
     
