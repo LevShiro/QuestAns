@@ -4,6 +4,6 @@
 <p class="question-block__text_question">{{card.question}}</p>
 <input type="text" class="question-block__input_answer" id="ansver" value="">
 {% if not is_last_card %}
-    <button>Далее</button>
+    <button class="test_go__button_next" onclick="next(`{{group.id}}`)">Далее</button>
 {% endif %}
 <button onclick="send_answers('{{group.id}}')">Закончить тест</button>

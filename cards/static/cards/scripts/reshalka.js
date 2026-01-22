@@ -3,7 +3,7 @@ const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
 const root_id_name = 'question-block';
 const attrib_name_with_group_id = 'zachet'
-const submit_class_name = 'submit'
+const submit_class_name = 'class_hidden'
 
 
 var root;
