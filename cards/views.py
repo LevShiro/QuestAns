@@ -12,7 +12,7 @@ def cards(request,group_id):
     group = Group_cards.objects.get(id=group_id)
     cards = Card.objects.filter(in_group=group)
     group_was_rated = group.was_rated(request.user)
-    group_was_save = SaveLinkGroup.objects.filter(user=request.user,group=group).exists()
+    group_was_save = request.user.save_group.filter(id=group_id).exists()
     
     arr_cards = []
     
@@ -149,10 +149,10 @@ def save_group(request):
     print(group_id)
     group = Group_cards.objects.get(id=group_id)
     
-    if SaveLinkGroup.objects.filter(user=request.user,group=group).exists():
+    if request.user.save_group.filter(id=group_id).exists():
         return HttpResponse(status=200)
     else:
-        SaveLinkGroup.objects.create(user=request.user,group=group)
+        request.user.save_group.add(group)
     return HttpResponse(status=200)
 
 
