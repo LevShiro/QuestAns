@@ -64,18 +64,27 @@ def go_test(request,group_id):
 
 def get_quest(request):
     if request.method == "GET":
-        
         group_id = request.headers['group-id']
         card_id = request.headers['card-id']
-        
         group = Group_cards.objects.get(id=group_id)
-        
         cards = Card.objects.filter(in_group=group)
-        card = cards[int(card_id)-1]
         
+        try:
+            card = cards[int(card_id)-1]
+        except:
+            return HttpResponse(status=416)
+        
+        is_last_card = False
+        
+        if int(card_id) == cards.count():
+            is_last_card = True
+        
+        gallery = GalleryCard.objects.filter(card=card)
         data = {
             'group':group,
-            'card':card
+            'card':card,
+            'is_last_card': is_last_card,
+            'gallery':gallery
         }
         return render(request,'cards/particles/test_place.html',data)
     
