@@ -1,5 +1,9 @@
-<img src="" alt="" srcset="">
+{% for img in gallery %}
+    <img src="{{img.photo.url}}" alt="" srcset="">
+{% endfor %}
 <p class="question-block__text_question">{{card.question}}</p>
 <input type="text" class="question-block__input_answer" id="ansver" value="">
-<button>Далее</button>
+{% if not is_last_card %}
+    <button>Далее</button>
+{% endif %}
 <button onclick="send_answers('{{group.id}}')">Закончить тест</button>
