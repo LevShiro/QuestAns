@@ -3,6 +3,8 @@ const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
 const root_id_name = 'question-block';
 const attrib_name_with_group_id = 'zachet'
+const submit_class_name = 'submit'
+
 
 var root;
 var cur_card = '1';
@@ -10,6 +12,16 @@ var fetch_card;
 var fetching = false;
 var group_id = '';
 var ansvers = {};
+
+function get_root() {
+    if (root != null) return root;
+    root = document.getElementById(root_id_name);
+    if (root != null) return root;
+    throw "element with id " + root_id_name + " not found"
+}
+
+
+
 function update() {
     if (cur_card != fetch_card && !fetching) {
         send_ansver();
@@ -28,9 +40,6 @@ function send_ansver(grp_id) {
     }
     ansver = el.value;
     ansvers[fetch_card] = ansver;
-
-
-
 
 }
 
@@ -89,9 +98,9 @@ function on_chose_another_card(nom, grp_id) {
     update();
 }
 
-function send_answers(grp_id) {
-    send_ansver();
+function submit_send_answers(grp_id) {
     if (grp_id != null) group_id = grp_id;
+    send_ansver();
     fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id }, body: JSON.stringify(ansvers) })
         .then(function (resp) {
             if (!resp.ok) {alert('server error code ' + resp.status); return; }
@@ -110,6 +119,17 @@ if (el != null) {
     group_id = el;
     make_request(), attrib_name_with_group_id
 } else {
-    console.log('attribute', attrib_name_with_group_id, 'not jound')
+    console.log('attribute', attrib_name_with_group_id, 'not found')
+
+}
+
+function canncel_send_data() {
+    for (i of document.getElementsByClassName(submit_class_name)) { i.setAttribute('hidden', ''); };
+    
+}
+
+function send_answers(grp_id) {
+    if (grp_id != null) group_id = grp_id;
+    for (i of document.getElementsByClassName(submit_class_name)) { i.removeAttribute("hidden"); }
 
 }
