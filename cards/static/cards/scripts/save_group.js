@@ -1,6 +1,6 @@
 
 api_url_for_save_group = '/cards/api/save_group'
-
+element_for_update = 'group_save_buttons'
 
 
 function save_group(group_id) {

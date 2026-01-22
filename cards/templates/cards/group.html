@@ -23,11 +23,13 @@
             {% endfor %}
         </ul>
         <div class="actions-row">
-            {% if was_save %}
-                <button id="group_save_button" onclick="">Удалить из сохранённых</button>
-            {% else %}
-                <button id="group_save_button" onclick="save_group(`{{ group.id }}`)">Сохранить группу</button>
-            {% endif %}
+            <div id="group_save_buttons">
+                {% if was_save %}
+                    <button class="group_save_button" onclick="discard_save(`{{ group.id }}`)">Удалить из сохранённых</button>
+                {% else %}
+                    <button class="group_save_button" onclick="save_group(`{{ group.id }}`)">Сохранить группу</button>
+                {% endif %}
+            </div>
                 <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
             {% include 'cards/particles/raiting_group.html' %}
         </div>

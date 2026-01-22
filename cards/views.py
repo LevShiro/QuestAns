@@ -144,15 +144,20 @@ def create_group(request):
     return render(request, 'cards/create_group.html')
 
 def save_group(request):
-    
     group_id = request.headers['group-id']
-    print(group_id)
+    is_exist = request.user.save_group.filter(id=group_id).exists()
     group = Group_cards.objects.get(id=group_id)
-    
-    if request.user.save_group.filter(id=group_id).exists():
-        return HttpResponse(status=200)
+    if request.headers['save'] == 'true':
+        save = True
     else:
+        save = False
+
+    if save and not(is_exist):
         request.user.save_group.add(group)
+    
+    elif not(save) and is_exist:
+        request.user.save_group.remove(group)
+            
     return HttpResponse(status=200)
 
 
