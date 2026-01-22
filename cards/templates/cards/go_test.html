@@ -15,5 +15,11 @@
     </aside>
     <div class="question-block" id="question-block" zachet="{{group.id}}"></div>
     <script src="{% static 'cards/scripts/reshalka.js' %}"></script>
+    <div id="complete_end_test" class="class_hidden" hidden>
+        <p>Вы уверены что хотите закончить тест?</p>
+        <button id="complete_end_test__yes">Да</button>
+        <button id="complete_end_test__no">Нет</button>
+    </div>
+    <div id="blackout_ground" class="class_hidden" hidden></div>
 </main>
 {% endblock %}
