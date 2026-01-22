@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db.models import Q
 import urllib.parse
-from .forms import CardForm
 from django.forms import formset_factory
 import threading
 import json
@@ -13,6 +12,8 @@ def cards(request,group_id):
     group = Group_cards.objects.get(id=group_id)
     cards = Card.objects.filter(in_group=group)
     group_was_rated = group.was_rated(request.user)
+    group_was_save = request.user.save_group.filter(id=group_id).exists()
+    
     arr_cards = []
     
     for card in cards:
@@ -20,7 +21,8 @@ def cards(request,group_id):
     context = {
         'group':group,
         'cards':arr_cards,
-        'was_rated':group_was_rated
+        'was_rated':group_was_rated,
+        'was_save':group_was_save
     }
     return render(request,'cards/group.html',context)
 
@@ -142,7 +144,19 @@ def create_group(request):
     return render(request, 'cards/create_group.html')
 
 def save_group(request):
+    group_id = request.headers['group-id']
+    is_exist = request.user.save_group.filter(id=group_id).exists()
+    group = Group_cards.objects.get(id=group_id)
     
+    if request.headers['save'] == 'true':
+        save = True
+    else:
+        save = False
+    
+    if save and not(is_exist):
+        request.user.save_group.add(group)
+    elif not(save) and is_exist:
+        request.user.save_group.remove(group)
     return HttpResponse(status=200)
 
 

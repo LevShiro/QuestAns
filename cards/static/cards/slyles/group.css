@@ -176,3 +176,25 @@
     margin-left: 16px;
     margin: 15px;
 }
+#complete_end_test{
+    position: fixed;
+    top:50%;
+    left: 50%;
+    border: 2px solid black;
+    color: #000000;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border-radius: 25px;
+    margin-left: 16px;
+    margin: 15px;
+    z-index: 1;
+    transform: translate(-50%, -50%)
+}
+#blackout_ground{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: rgba(0,0,0,.5);;
+}

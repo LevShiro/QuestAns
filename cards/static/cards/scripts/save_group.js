@@ -1,5 +1,7 @@
-api_url_for_save_group = 'cards/api/save_group'
-element_for_update = 'root'
+
+api_url_for_save_group = '/cards/api/save_group'
+element_for_update = 'group_save_buttons'
+
 
 function save_group(group_id) {
     fetch(api_url_for_save_group, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id, "save": true } })
@@ -20,7 +22,7 @@ function discard_save(group_id) {
         .finally(update_element);
 }
 
-//функция для обновления элемента без перезагрузки страницы
+//ГґГіГ­ГЄГ¶ГЁГї Г¤Г«Гї Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї ГЅГ«ГҐГ¬ГҐГ­ГІГ  ГЎГҐГ§ ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЄГЁ Г±ГІГ°Г Г­ГЁГ¶Г»
 async function update_element() {
     let resp = await fetch(document.URL);
 
