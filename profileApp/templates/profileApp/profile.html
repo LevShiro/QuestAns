@@ -31,7 +31,8 @@
                 {% for group in my_groups %}
                     <li class="group-item">
                         <a href="{% url 'group' group_id=group.id %}">
-                            {{group.title}}
+                            <h4 class="group-item__title">{{group.title}}</h4>
+                            <img src="{% static 'cards/images/logo.png' %}" alt="" class="group-item__face_photo">
                             <span>Оценка: {{group.group_raiting}}</span>
                         </a>
                     </li>
@@ -45,22 +46,24 @@
         </div>
         <div class="profile_App__save_groups">
             <h4>Сохраненные группы:</h4>
-            {% for group in save_group %}
-                <l
-                i class="group-item">
-                    <a href="{% url 'group' group_id=group.id %}">
-                        <h4 class="group-item__title">{{group.title}}</h4>
-                        <span class="group-item__author">Автор: {{group.author}}
-                            {% if group.author.avatar %}
-                                <img src="{{group.author.avatar.url}}" class="group-item__avatar-user">
-                            {% else %}
-                                <img src="{% static 'main/images/non-auth.png' %}" class="group-item__avatar-user">
-                            {% endif %}
-                        </span>
-                        <span class="group-item__rait">Оценка: {{group.group_raiting}}</span>
-                    </a>
-                </l>
-            {% endfor %}
+            <ul id="groups-list">
+                {% for save_group in save_groups %}
+                    <li class="group-item">
+                        <a href="{% url 'group' group_id=save_group.id %}">
+                            <h4 class="group-item__title">{{save_group.title}}</h4>
+                            <img src="{% static 'cards/images/logo.png' %}" alt="" class="group-item__face_photo">
+                            <span class="group-item__author">Автор: {{save_group.author}}
+                                {% if save_group.author.avatar %}
+                                    <img src="{{save_group.author.avatar.url}}" class="group-item__avatar-user">
+                                {% else %}
+                                    <img src="{% static 'main/images/non-auth.png' %}" class="group-item__avatar-user">
+                                {% endif %}
+                            </span>
+                            <span class="group-item__rait">Оценка: {{save_group.group_raiting}}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </main>
 {% endblock %}

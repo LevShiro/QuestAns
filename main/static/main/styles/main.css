@@ -24,7 +24,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,.1);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1;
 }
 
 .auth-block {
@@ -220,10 +220,20 @@ body {
 }
 
 .group-item__avatar-user{
-    width: 200px;
-    height: auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    object-fit: cover;
+    margin-left: 5px;
 }
-
+.group-item__author{
+    display: flex;
+    align-items: center;
+}
+.group-item__face_photo{
+    width: 100%;
+}
 @media (max-width: 480px) {
     .wrap {
         padding: 0 12px;
