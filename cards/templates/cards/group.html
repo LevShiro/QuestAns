@@ -32,6 +32,9 @@
             </div>
                 <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
             {% include 'cards/particles/raiting_group.html' %}
+            {% if request.user == group.author or request.user.is_superuser %}
+                <button>Удалить группу</button>
+            {% endif %}
         </div>
     </main>
     
