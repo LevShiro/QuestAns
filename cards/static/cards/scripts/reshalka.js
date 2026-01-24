@@ -3,7 +3,7 @@ const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
 const root_id_name = 'question-block';
 const attrib_name_with_group_id = 'zachet'
-const ignore_click_object = 'ignore'
+const ignore_click_object = 'complete_end_test'
 const submit_class_name = 'class_hidden'
 
 var bounding;
