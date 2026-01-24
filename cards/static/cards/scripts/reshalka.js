@@ -3,10 +3,12 @@ const api_to_send_ansver = '/cards/api/send_quest/';
 const ansver_id_name = 'ansver';
 const root_id_name = 'question-block';
 const attrib_name_with_group_id = 'zachet'
+const ignore_click_object = 'ignore'
 const submit_class_name = 'class_hidden'
 
-
+var bounding;
 var root;
+var is_hidden = true;
 var cur_card = '1';
 var fetch_card;
 var fetching = false;
@@ -17,10 +19,16 @@ function get_root() {
     if (root != null) return root;
     root = document.getElementById(root_id_name);
     if (root != null) return root;
-    throw "element with id " + root_id_name + " not found"
+    throw "element with id " + root_id_name + " not found";
 }
 
-
+function get_ignored_bounding() {
+    if (bounding != null) return bounding;
+    let elem = document.getElementById(ignore_click_object);
+    if (elem == null) throw "element with id " + ignore_click_object + " not found";
+    bounding = elem.getBoundingClientRect();
+    return bounding;
+}
 
 function update() {
     if (cur_card != fetch_card && !fetching) {
@@ -117,24 +125,15 @@ function submit_send_answers(grp_id) {
 
 }
 
-
-root = document.getElementById(root_id_name);
-let el = root.getAttribute(attrib_name_with_group_id)
-if (el != null) {
-    group_id = el;
-    make_request(), attrib_name_with_group_id
-} else {
-    console.log('attribute', attrib_name_with_group_id, 'not found')
-
-}
-
 function canncel_send_data() {
+    is_hidden = true;
     for (i of document.getElementsByClassName(submit_class_name)) { i.setAttribute('hidden', ''); };
-    
+
 }
 
 function send_answers(grp_id) {
     if (grp_id != null) group_id = grp_id;
+    is_hidden = false;
     for (i of document.getElementsByClassName(submit_class_name)) { i.removeAttribute("hidden"); }
 
 }
@@ -146,3 +145,24 @@ function next(grp_id) {
     cur_card = String(a + 1)
     update();
 }
+
+function on_document_click(e) {
+    if (is_hidden) return;
+    let bnd = get_ignored_bounding();
+    if (!(e.pageX > bnd.left && e.pageX < bnd.right && e.pageY > bnd.top && e.pageY < bnd.bottom)) canncel_send_data();
+
+}
+
+
+document.addEventListener('click', on_document_click);
+
+root = document.getElementById(root_id_name);
+let el = root.getAttribute(attrib_name_with_group_id)
+if (el != null) {
+    group_id = el;
+    make_request(), attrib_name_with_group_id
+} else {
+    console.log('attribute', attrib_name_with_group_id, 'not found')
+
+}
+
