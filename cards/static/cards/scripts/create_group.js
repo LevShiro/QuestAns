@@ -74,9 +74,10 @@ function send_cards() {
 
             data.append(i.getAttribute('name'), i.value);
         }
-        fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: data })
+        fetch(api_to_send_card, { redirect: "follow", method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: data })
         .then(function (resp) {
             if (!resp.ok) console.error('server error code ' + resp.status);
+            if (resp.redirected) window.location.href = resp.url;
         })
         .catch(console.error);
     }
