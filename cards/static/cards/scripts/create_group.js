@@ -4,6 +4,8 @@ const class_name_for_field = 'field';
 const nomer_attribute_name = 'nom';
 const name_input_id = 'create_group__input-title';
 const delete_button_class = 'create_card__delete_button';
+const input_file_class = 'photo';
+const input_file_name_template = 'pho222to';
 
 var root;
 
@@ -22,6 +24,7 @@ function add_del_event(b, e) {
 
 function add_card() {
 
+    let nomer;
     let el = root.lastElementChild;
     root.appendChild(el.cloneNode(true));
     el = root.lastChild;
@@ -37,8 +40,19 @@ function add_card() {
             }
             i.setAttribute(nomer_attribute_name, n);
             i.innerText = n;
+            nomer = n;
         } else {
             i.value = '';
+        }
+    }
+    if (n != null) {
+        let elems = el.getElementsByClassName(input_file_class);
+        for (i of elems) {
+            atr = i.getAttribute('type');
+            if (atr == 'file') {
+                i.setAttribute('name', input_file_name_template + nomer)
+                break;
+            }
         }
     }
     let b = el.getElementsByClassName(delete_button_class);
