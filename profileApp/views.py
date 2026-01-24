@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from cards.models import Group_cards,SaveLinkGroup
+from cards.models import Group_cards
 from .forms import EditProfileImageForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
@@ -9,7 +9,8 @@ User = get_user_model()
 # Create your views here.
 def profile(request):
     my_groups = Group_cards.objects.filter(author = request.user)
-    save_group = SaveLinkGroup.objects.filter(user=request.user)
+    save_group = request.user.save_group.all()
+    
     
     if 'photo_edit_button' in request.POST:
            form_avatar = EditProfileImageForm(request.POST,request.FILES,instance=request.user)
@@ -28,7 +29,7 @@ def profile(request):
         'form': form_avatar,
         'my_groups':my_groups,
         'user':request.user,
-        'save_group':save_group
+        'save_groups':save_group
     }
     return render(request,'profileApp/profile.html',context)
 
