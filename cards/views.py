@@ -5,6 +5,7 @@ import urllib.parse
 from django.forms import formset_factory
 import threading
 import json
+import random
 
 from .models import *
 # Create your views here. im 
@@ -18,6 +19,7 @@ def cards(request,group_id):
     
     for card in cards:
         arr_cards.append({'card_object':card,'gallery':GalleryCard.objects.filter(card=card)})
+    
     context = {
         'group':group,
         'cards':arr_cards,
@@ -132,7 +134,7 @@ def user_raiting(request):
     return HttpResponse(status=200)
 
 
-log_mutex = threading.Lock()
+""" log_mutex = threading.Lock()
 def create_group(request):
     log_mutex.acquire()
     if request.method =="POST":
@@ -150,6 +152,16 @@ def create_group(request):
         log_mutex.release()
         return redirect("group",group.id)
     log_mutex.release()
+    return render(request, 'cards/create_group.html') """
+def create_group(request):
+    print(request.POST)
+    """ if request.method =="POST":
+        title = request.POST.get('group_name')
+        input_question = request.POST.getlist('input_question')
+        input_answer = request.POST.getlist('input_answer')
+        if Group_cards.objects.filter(title=title).exists() == False:
+            group = Group_cards.objects.create(title=title,author = request.user) """
+            
     return render(request, 'cards/create_group.html')
 
 def save_group(request):
@@ -168,8 +180,14 @@ def save_group(request):
         request.user.save_group.remove(group)
     return HttpResponse(status=200)
 
-
-    
-    
-    
-
+def delete_group(request,group_id):
+    group = Group_cards.objects.get(id=group_id)
+    if request.user.is_superuser or group.author == request.user:
+        cards = Card.objects.filter(in_group = group)
+        for card in cards:
+            gallerys = GalleryCard.objects.filter(card=card)
+            if gallerys.exists():
+                for gallery in gallerys:
+                    gallery.photo.delete(False)
+        group.delete()
+    return redirect('home')

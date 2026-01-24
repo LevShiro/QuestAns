@@ -32,9 +32,12 @@
             </div>
                 <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
             {% include 'cards/particles/raiting_group.html' %}
-            {% if request.user == group.author or request.user.is_superuser %}
-                <button>Удалить группу</button>
-            {% endif %}
+            <form action="{% url 'delete_group' group_id=group.id %}" method="post">
+                {% csrf_token %}
+                {% if request.user == group.author or request.user.is_superuser %}
+                    <button type="submit" class="delete_group_button" name="delete_group">Удалить группу</button>
+                {% endif %}
+            </form>
         </div>
     </main>
     
