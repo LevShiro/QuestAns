@@ -4,6 +4,8 @@ const class_name_for_field = 'field';
 const nomer_attribute_name = 'nom';
 const name_input_id = 'create_group__input-title';
 const delete_button_class = 'create_card__delete_button';
+const input_file_class = 'photo';
+const input_file_name_template = 'photo';
 
 var root;
 
@@ -18,10 +20,9 @@ function add_del_event(b, e) {
 
 }
 
-
-
 function add_card() {
 
+    let nomer = null;
     let el = root.lastElementChild;
     root.appendChild(el.cloneNode(true));
     el = root.lastChild;
@@ -37,8 +38,19 @@ function add_card() {
             }
             i.setAttribute(nomer_attribute_name, n);
             i.innerText = n;
+            nomer = n;
         } else {
             i.value = '';
+        }
+    }
+    if (nomer != null) {
+        let elems = el.getElementsByClassName(input_file_class);
+        for (i of elems) {
+            atr = i.getAttribute('type');
+            if (atr == 'file') {
+                i.setAttribute('name', input_file_name_template + nomer)
+                break;
+            }
         }
     }
     let b = el.getElementsByClassName(delete_button_class);
@@ -49,10 +61,10 @@ function add_card() {
 }
 
 function send_cards() {
-
+    
     let group_name = '';
     el = document.getElementById(name_input_id);
-
+    
     if (el != null) group_name = el.value;
     else {
         console.error('element eith id', name_input_id, 'not found');
@@ -64,19 +76,19 @@ function send_cards() {
         elems = card.getElementsByClassName(class_name_for_field);
         for (i of elems) {
             if (i.hasAttribute(nomer_attribute_name)) continue;
-
+            
             if (i.getAttribute('type') != null && i.getAttribute('type') == 'file') {
                 for (f of i.files) {
                     data.append(i.getAttribute('name'), f);
                 }
                 continue;
             }
-
             data.append(i.getAttribute('name'), i.value);
         }
-        fetch(api_to_send_card, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: data })
+        fetch(api_to_send_card, { redirect: "follow", method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken') }, body: data })
         .then(function (resp) {
             if (!resp.ok) console.error('server error code ' + resp.status);
+            if (resp.redirected) window.location.href = resp.url;
         })
         .catch(console.error);
     }
@@ -99,9 +111,7 @@ function delete_card(e) {
                 i.innerText = n;
                 break;
             }
-
         }
-
         elem = elem.nextElementSibling;
     }
     e.remove();
