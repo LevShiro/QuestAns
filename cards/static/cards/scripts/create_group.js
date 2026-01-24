@@ -22,7 +22,7 @@ function add_del_event(b, e) {
 
 function add_card() {
 
-    let nomer;
+    let nomer = null;
     let el = root.lastElementChild;
     root.appendChild(el.cloneNode(true));
     el = root.lastChild;
@@ -43,7 +43,7 @@ function add_card() {
             i.value = '';
         }
     }
-    if (n != null) {
+    if (nomer != null) {
         let elems = el.getElementsByClassName(input_file_class);
         for (i of elems) {
             atr = i.getAttribute('type');
