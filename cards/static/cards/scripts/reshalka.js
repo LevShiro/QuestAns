@@ -10,7 +10,7 @@ var bounding;
 var root;
 var is_hidden = true;
 var cur_card = '1';
-var fetch_card;
+var fetch_card; 
 var fetching = false;
 var group_id = '';
 var ansvers = {};
@@ -154,7 +154,7 @@ function on_document_click(e) {
 }
 
 
-document.addEventListener('click', on_document_click);
+document.addEventListener('mousedown', on_document_click);
 
 root = document.getElementById(root_id_name);
 let el = root.getAttribute(attrib_name_with_group_id)
