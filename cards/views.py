@@ -71,9 +71,12 @@ def get_quest(request):
     if request.method == "GET":
         group_id = request.headers['group-id']
         card_id = request.headers['card-id']
+        seed = request.headers['seed']
+        random.seed(seed)
         group = Group_cards.objects.get(id=group_id)
-        cards = Card.objects.filter(in_group=group).order_by('?')
-        
+        cards = Card.objects.filter(in_group=group)
+        cards = random.sample(list(cards),cards.count())
+        print(cards)
         try:
             card = cards[int(card_id)-1]
         except:
@@ -81,7 +84,7 @@ def get_quest(request):
         
         is_last_card = False
         
-        if int(card_id) == cards.count():
+        if int(card_id) == len(cards):
             is_last_card = True
         
         gallery = GalleryCard.objects.filter(card=card)
@@ -95,7 +98,7 @@ def get_quest(request):
     
 def send_quest(request):
     if request.method == "POST":
-        
+        seed = request.headers['seed']
         answers = request.body
         group_id = request.headers['group_id']
         group = Group_cards.objects.get(id=group_id)
@@ -104,11 +107,15 @@ def send_quest(request):
         
         results=[]
         
+        random.seed(seed)
         cards = Card.objects.filter(in_group=group)
-        for i in range(cards.count()):
+        cards = random.sample(list(cards),cards.count())
+        true = 0
+        for i in range(len(cards)):
             if not (str(i+1) in answer):
                 results.append([cards[i].question,cards[i].answer,"","Неправильно"])
             elif cards[i].answer.lower() == answer[str(i+1)].lower():
+                true += 1
                 results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Правильно"])
             else:
                 results.append([cards[i].question,cards[i].answer,answer[str(i+1)],"Неправильно"])
@@ -116,6 +123,7 @@ def send_quest(request):
         data = {
             'results':results,
             'group_id':group_id,
+            'true':true,
         }
         return render(request,'cards/result.html',data)
 
