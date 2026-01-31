@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 import urllib.parse
 from django.forms import formset_factory
-import threading
+from .funcs import *
 import json
 import random
 
@@ -154,14 +154,15 @@ def create_group(request):
     log_mutex.release()
     return render(request, 'cards/create_group.html') """
 def create_group(request):
-    print(request.POST)
-    """ if request.method =="POST":
+    
+    if request.method =="POST":
         title = request.POST.get('group_name')
         input_question = request.POST.getlist('input_question')
         input_answer = request.POST.getlist('input_answer')
-        if Group_cards.objects.filter(title=title).exists() == False:
-            group = Group_cards.objects.create(title=title,author = request.user) """
+        """ if Group_cards.objects.filter(title=title).exists() == False:
             
+            group = Group_cards.objects.create(title=title,author = request.user) """
+        arr_photos(request)
     return render(request, 'cards/create_group.html')
 
 def save_group(request):
