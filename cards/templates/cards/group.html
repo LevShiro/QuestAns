@@ -6,39 +6,43 @@
 {% block content %}
 {% include 'main/header.html' %}
     <main class="main-block main-block__group wrap">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <h4 class="group-title">{{group.title}}</h4>
-        <ul class="card-list">
-            {% for card in cards %}
-            <li class="card-item"> 
-                {% if card.gallery %}
-                    {{card.gallery.first.url}}
-                    {% for photo in card.gallery %}
-                        <img class="img" src="{{photo.photo.url}}" alt="">
-                    {% endfor %}
-                {% endif %}
-                <p class="card-item__question">Вопрос: {{card.card_object.question}}</p>
-                <p class="card-item__answer">Ответ: {{card.card_object.answer}}</p>
-            </li> 
-            {% endfor %}
-        </ul>
-        <div class="actions-row">
-            <div id="group_save_buttons">
-                {% if was_save %}
-                    <button class="group_save_button" onclick="discard_save(`{{ group.id }}`)">Удалить из сохранённых</button>
-                {% else %}
-                    <button class="group_save_button" onclick="save_group(`{{ group.id }}`)">Сохранить группу</button>
-                {% endif %}
+        {% if group.is_private and request.user != group.author %}
+            <h4>Этот тест недоступен для других пользователей</h4>
+        {% else %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <h4 class="group-title">{{group.title}}</h4>
+            <ul class="card-list">
+                {% for card in cards %}
+                <li class="card-item"> 
+                    {% if card.gallery %}
+                        {{card.gallery.first.url}}
+                        {% for photo in card.gallery %}
+                            <img class="img" src="{{photo.photo.url}}" alt="">
+                        {% endfor %}
+                    {% endif %}
+                    <p class="card-item__question">Вопрос: {{card.card_object.question}}</p>
+                    <p class="card-item__answer">Ответ: {{card.card_object.answer}}</p>
+                </li> 
+                {% endfor %}
+            </ul>
+            <div class="actions-row">
+                <div id="group_save_buttons">
+                    {% if was_save %}
+                        <button class="group_save_button" onclick="discard_save(`{{ group.id }}`)">Удалить из сохранённых</button>
+                    {% else %}
+                        <button class="group_save_button" onclick="save_group(`{{ group.id }}`)">Сохранить группу</button>
+                    {% endif %}
+                </div>
+                    <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
+                {% include 'cards/particles/raiting_group.html' %}
+                <form action="{% url 'delete_group' group_id=group.id %}" method="post">
+                    {% csrf_token %}
+                    {% if request.user == group.author or request.user.is_superuser %}
+                        <button type="submit" class="delete_group_button" name="delete_group">Удалить группу</button>
+                    {% endif %}
+                </form>
             </div>
-                <a href="{% url 'go_test' group_id=group.id %}" class="go-test-btn">Решать тест</a>
-            {% include 'cards/particles/raiting_group.html' %}
-            <form action="{% url 'delete_group' group_id=group.id %}" method="post">
-                {% csrf_token %}
-                {% if request.user == group.author or request.user.is_superuser %}
-                    <button type="submit" class="delete_group_button" name="delete_group">Удалить группу</button>
-                {% endif %}
-            </form>
-        </div>
+        {% endif %}
     </main>
     
     <script src="{% static 'cards/scripts/group_raiting.js'%}"></script>

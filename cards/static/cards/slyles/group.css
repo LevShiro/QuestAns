@@ -203,3 +203,11 @@
     flex-direction: column;
     align-items: center;
 }
+.create_group__group_inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.create_group__checkbox{
+    float: right;
+}

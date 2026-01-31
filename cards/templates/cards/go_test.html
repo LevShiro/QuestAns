@@ -7,19 +7,23 @@
 {% block content %}
 {% include 'main/header.html' %}
 <main class="main-block main-block__go_test wrap">
-    <h4>Вы решаете тест "{{group.title}}"</h4>
-    <aside class="navigation_cards">
-        {% for card in cards %}
-            <button onclick="on_chose_another_card(`{{forloop.counter}}`,`{{group.id}}`)">{{forloop.counter}}</button>
-        {% endfor %}
-    </aside>
-    <div class="question-block" id="question-block" zachet="{{group.id}}"></div>
-    <div id="complete_end_test" class="class_hidden" hidden>
-        <p>Вы уверены что хотите закончить тест?</p>
-        <button id="complete_end_test__yes" onclick="submit_send_answers(`{{group.id}}`)">Да</button>
-        <button id="complete_end_test__no" onclick="canncel_send_data()">Нет</button>
-    </div>
-    <div id="blackout_ground" class="class_hidden" hidden></div>
+    {% if group.is_private and request.user != group.author %}
+        <h4>Этот тест недоступен для других пользователей</h4>
+    {% else %}
+        <h4>Вы решаете тест "{{group.title}}"</h4>
+        <aside class="navigation_cards">
+            {% for card in cards %}
+                <button onclick="on_chose_another_card(`{{forloop.counter}}`,`{{group.id}}`)">{{forloop.counter}}</button>
+            {% endfor %}
+        </aside>
+        <div class="question-block" id="question-block" zachet="{{group.id}}"></div>
+        <div id="complete_end_test" class="class_hidden" hidden>
+            <p>Вы уверены что хотите закончить тест?</p>
+            <button id="complete_end_test__yes" onclick="submit_send_answers(`{{group.id}}`)">Да</button>
+            <button id="complete_end_test__no" onclick="canncel_send_data()">Нет</button>
+        </div>
+        <div id="blackout_ground" class="class_hidden" hidden></div>
+    {% endif %}
 </main>
 <script src="{% static 'cards/scripts/reshalka.js' %}"></script>
 {% endblock %}
