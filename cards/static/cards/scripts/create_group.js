@@ -4,8 +4,8 @@ const class_name_for_field = 'field';
 const nomer_attribute_name = 'nom';
 const name_input_id = 'create_group__input-title';
 const delete_button_class = 'create_card__delete_button';
-const input_file_class = 'photo';
-const input_file_name_template = 'photo';
+const input_file_class = 'create_card__input_photo';
+const input_file_name_template = 'photo-';
 
 var root;
 
