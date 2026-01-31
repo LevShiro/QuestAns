@@ -5,6 +5,7 @@ from django.db.models import Sum
 User = get_user_model()
 # Create your models here.
 class Group_cards(models.Model):
+    photo = models.ImageField(null=True,blank=True,upload_to="group-photo")
     title = models.CharField(max_length=64)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     
@@ -35,7 +36,7 @@ class Card(models.Model):
         return self.question
     
 class GalleryCard(models.Model):
-    photo = models.ImageField(null=True,blank=True,upload_to="media/imagecards")
+    photo = models.ImageField(null=True,blank=True,upload_to="imagecards")
     card = models.ForeignKey(Card,on_delete=models.CASCADE,blank=True,default=None)
     def __str__(self):
         return str(f"{self.card}_{self.photo}")
