@@ -6,6 +6,7 @@ const attrib_name_with_group_id = 'zachet'
 const ignore_click_object = 'complete_end_test'
 const submit_class_name = 'class_hidden'
 
+var seed = Math.ceil(Math.random() * 1000);
 var bounding;
 var root;
 var is_hidden = true;
@@ -54,7 +55,7 @@ function make_request() {
     fetching = true;
     fetch_card = cur_card;
     try {
-        fetch(api_to_get_group, { headers: { 'card-id': fetch_card, 'group-id': group_id} })
+        fetch(api_to_get_group, { headers: { 'card-id': fetch_card, 'group-id': group_id, "seed": seed} })
             .then(function (v) {
                 if (!v.ok) {
                     if (v.status == 416) {
@@ -114,7 +115,7 @@ function on_chose_another_card(nom, grp_id) {
 function submit_send_answers(grp_id) {
     if (grp_id != null) group_id = grp_id;
     save_ansver();
-    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id }, body: JSON.stringify(ansvers) })
+    fetch(api_to_send_ansver, { method: "POST", headers: { 'X-CSRFToken': Cookies.get('csrftoken'), 'group-id': group_id, "seed": seed }, body: JSON.stringify(ansvers) })
         .then(function (resp) {
             if (!resp.ok) {alert('server error code ' + resp.status); return; }
             return resp.text();
