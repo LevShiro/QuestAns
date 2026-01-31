@@ -8,6 +8,7 @@ class Group_cards(models.Model):
     photo = models.ImageField(null=True,blank=True,upload_to="group-photo")
     title = models.CharField(max_length=64)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    is_private = models.BooleanField(default=False)
     
     def quantity_raits(self):
         return UserRaiting.objects.filter(group=self).count()

@@ -5,7 +5,6 @@ from django.views import View
 # Create your views here.
 def main(request):
     groups = Group_cards.objects.all()[:5]
-    
     if "logout-button" in request.POST:
         logout(request)
         return redirect('home')

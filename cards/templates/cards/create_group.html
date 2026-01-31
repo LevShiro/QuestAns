@@ -9,14 +9,18 @@
     <main class="main-block wrap">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" placeholder="Название группы карт" class="create_group__input-title" id="create_group__input-title" name="group_name" required>
-            <input type="file" class="create_group__input_photo" name="photo-main"
-            title="Загрузите одну или несколько фотографий" accept="image/*">
+            <div class="create_group__group_inputs">
+                <input type="text" placeholder="Название группы карт" class="create_group__input-title" id="create_group__input-title" name="group_name" required>
+                <label>Загрузить основное фото группы
+                <input type="file" class="create_group__input_photo" name="photo-main"
+                accept="image/*"></label>
+            </div>
             <ul class="create_group__cards_list" id="root">
                 {% include 'cards/particles/create_card.html' %}
             </ul>
                 <input class="create_group_button_add_card" type="button" value="Добавить карточку" onclick="add_card()">
-                <button id="create_group__add_card"  type="submit">Опубликовать группу карт</button>
+                <button id="create_group__add_card"  type="submit">Создать группу карт</button>
+                <label class="create_group__checkbox">Сделать группу только доступную только для вас <input type="checkbox" name="is_private" id=""></label>
         </form>
     </main>
     <script src="{% static 'cards/scripts/create_group.js' %}"></script>
