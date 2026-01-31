@@ -4,7 +4,11 @@
     <li class="group-item">
         <a href="{% url 'group' group_id=group.id %}">
             <h4 class="group-item__title">{{group.title}}</h4>
-            <img src="{% static 'cards/images/logo.png' %}" alt="" class="group-item__face_photo">
+            {% if group.photo %}
+                <img src="{{group.photo.url}}" alt="" class="group-item__face_photo">
+            {% else %}
+                <img src="{% static 'cards/images/logo.png' %}" alt="" class="group-item__face_photo">
+            {% endif %}
             <span class="group-item__author">Автор: {{group.author}}
                 {% if group.author.avatar %}
                     <img src="{{group.author.avatar.url}}" class="group-item__avatar-user">

@@ -156,13 +156,22 @@ def create_group(request):
 def create_group(request):
     
     if request.method =="POST":
+        main_photo = request.FILES.get('photo-main')
         title = request.POST.get('group_name')
         input_question = request.POST.getlist('input_question')
         input_answer = request.POST.getlist('input_answer')
-        """ if Group_cards.objects.filter(title=title).exists() == False:
-            
-            group = Group_cards.objects.create(title=title,author = request.user) """
-        arr_photos(request)
+        if Group_cards.objects.filter(title=title).exists() == False:
+            if main_photo is None:
+                group = Group_cards.objects.create(title=title,author = request.user)
+            else:
+                group = Group_cards.objects.create(title=title,author = request.user,photo=main_photo)
+            arr_photo = get_photos(request)
+            for i in range(len(input_answer)):
+                new_card = Card.objects.create(question = input_question[i], answer = input_answer[i], in_group = group)
+                for photo in arr_photo[i]:
+                    GalleryCard.objects.create(photo=photo,card=new_card)
+            return redirect('group',group.id)
+        
     return render(request, 'cards/create_group.html')
 
 def save_group(request):
@@ -183,6 +192,7 @@ def save_group(request):
 
 def delete_group(request,group_id):
     group = Group_cards.objects.get(id=group_id)
+    group.photo.delete(False)
     if request.user.is_superuser or group.author == request.user:
         cards = Card.objects.filter(in_group = group)
         for card in cards:
