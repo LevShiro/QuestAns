@@ -1,0 +1,48 @@
+{% extends "main/index.html" %}
+
+{% block title %}QuestAns | Иземенение группы {% endblock %}
+
+{% load static %}
+
+{% block content %}
+{% include 'main/header.html' %}
+    <main class="main-block wrap">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="create_group__group_inputs">
+                <input type="text" value="{{group.title}}" placeholder="Название группы карт" class="create_group__input-title" id="create_group__input-title" name="group_name" required>
+                {% if group.photo %}
+                    <img src="{{group.photo.url}}" alt="">
+                {% else %}
+                    <p>Эта группа не имеет основную фотографию</p>
+                {% endif %}
+                <label>Загрузить новое основное фото группы
+                <input type="file"  class="create_group__input_photo" name="photo-main"
+                accept="image/*"></label>
+            </div>
+            <ul class="create_group__cards_list" id="root">
+                {% for card in cards %}
+                    <div class="create_card-block">
+                    <div class="create_card__number_card">Карта номер: <span id="number_card_id" class="field" nom="{{forloop.counter}}">{{forloop.counter}}</span></div>
+                        {% for photo in card.gallery %}
+                            <img src="{{photo.photo.url}}" alt="" class="create_card__card-photo">
+                        {% endfor %}
+                        <p>Если хотите изменить фотографии, то загрузите их в поле внизу</p>
+                        <input type="file" value="" class="create_card__input_photo" name="photo-{{forloop.counter}}" multiple
+                        title="Загрузите одну или несколько фотографий" accept="image/*" class="field">
+                        <input type="text" value="{{card.card_object.question}}" placeholder="Вопрос" class="create_card__input_question field" name="input_question" required="true">
+                        <input type="text" value="{{card.card_object.answer}}" placeholder="Ответ" class="create_card__input_answer field" name="input_answer" required="true">
+                        <button class="create_card__delete_button" type="button">Удалить карточку</button>
+                    </div>
+                {% endfor %}
+            </ul>
+            <input class="create_group_button_add_card" type="button" value="Добавить карточку" onclick="add_card()">
+            <button id="create_group__add_card" name="change_group" type="submit">Редактировать группу карт</button>
+            <label class="create_group__checkbox">Сделать группу только доступную только для вас <input type="checkbox" name="is_private" id="" 
+                {% if group.is_private %}
+                checked
+                {% endif %}></label>
+        </form>
+    </main>
+    <script src="{% static 'cards/scripts/create_group.js' %}"></script>
+{% endblock %}
