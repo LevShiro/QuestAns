@@ -76,7 +76,7 @@ def get_quest(request):
         group = Group_cards.objects.get(id=group_id)
         cards = Card.objects.filter(in_group=group)
         cards = random.sample(list(cards),cards.count())
-        print(cards)
+        
         try:
             card = cards[int(card_id)-1]
         except:
@@ -88,6 +88,8 @@ def get_quest(request):
             is_last_card = True
         
         gallery = GalleryCard.objects.filter(card=card)
+        
+        
         data = {
             'group':group,
             'card':card,
@@ -132,7 +134,7 @@ def user_raiting(request):
     group =  Group_cards.objects.get(id = group_id)
     raiting = int(request.headers['mark'])
     rait_in_db = UserRaiting.objects.filter(user = request.user, group = group)
-    print(rait_in_db)
+    
     if rait_in_db.exists() and raiting==0:
         rait_in_db[0].delete()
     else:
@@ -151,7 +153,6 @@ def create_group(request):
         title = request.POST.get('group_name')
         input_question = request.POST.getlist('input_question')
         input_answer = request.POST.getlist('input_answer')
-        print(is_private,123)
         
         if is_private=='on':
             is_private = True
@@ -162,15 +163,80 @@ def create_group(request):
                 group = Group_cards.objects.create(title=title,author = request.user, is_private = is_private)
             else:
                 group = Group_cards.objects.create(title=title,author = request.user,photo=main_photo, is_private = is_private)
-            arr_photo = get_photos(request)
+            arr_photo = get_photos(request,len(input_question))
             for i in range(len(input_answer)):
                 new_card = Card.objects.create(question = input_question[i], answer = input_answer[i], in_group = group)
                 if len(arr_photo)!=0:
                     for photo in arr_photo[i]:
                         GalleryCard.objects.create(photo=photo,card=new_card)
             return redirect('group',group.id)
-        
     return render(request, 'cards/create_group.html')
+
+def change_group(request,group_id):
+    group = Group_cards.objects.get(id=group_id)
+    cards = Card.objects.filter(in_group=group)
+    arr_cards = []
+    
+    for card in cards:
+        arr_cards.append({'card_object':card,'gallery':GalleryCard.objects.filter(card=card)})
+        
+    if 'change_group' in request.POST:
+        is_private = request.POST.get('is_private')
+        main_photo = request.FILES.get('photo-main')
+        title = request.POST.get('group_name')
+        input_question = request.POST.getlist('input_question')
+        input_answer = request.POST.getlist('input_answer')
+        
+        if is_private=='on':
+            is_private = True
+        else: is_private = False
+        
+        group.is_private = is_private
+        
+        if main_photo:
+            group.photo.delete(False)
+            group.photo = main_photo
+        
+        group.title = title
+        group.save()
+        arr_photo = get_photos(request,len(input_question))
+        
+        
+        arr_old_cards=[]
+        
+        for card in Card.objects.filter(in_group = group):
+            arr_old_cards.append(card)
+
+        #создание и обновление галереи карт
+        for i in range(len(input_answer)):
+            new_card = Card.objects.create(question = input_question[i], answer = input_answer[i], in_group = group)
+            if len(arr_photo[i])!=0:
+                for photo in arr_photo[i]:
+                    GalleryCard.objects.create(photo=photo,card=new_card)
+            else:
+                try:
+                    photos = GalleryCard.objects.filter(card=arr_old_cards[i])
+                except:
+                    photos = None
+                finally:
+                    if photos!=None and photos.exists():
+                        photos.update(card=new_card)
+        
+        #удаление старых карт
+        for old_card in arr_old_cards:
+            gallerys = GalleryCard.objects.filter(card=card)
+            if gallerys.exists():
+                for gallery in gallerys:
+                    gallery.photo.delete(False)
+            old_card.delete()
+                
+        return redirect('group',group_id)
+        
+    data = {
+        'cards':arr_cards,
+        'group':group
+    }
+    return render(request,'cards/change_group.html',data)
 
 def save_group(request):
     group_id = request.headers['group-id']

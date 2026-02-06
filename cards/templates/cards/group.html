@@ -39,8 +39,10 @@
                     {% csrf_token %}
                     {% if request.user == group.author or request.user.is_superuser %}
                         <button type="submit" class="delete_group_button" name="delete_group">Удалить группу</button>
+                        <a href="{% url 'change_group' group_id=group.id %}">Изменить группу</a>
                     {% endif %}
                 </form>
+                
             </div>
         {% endif %}
     </main>
